@@ -173,12 +173,14 @@
         white-space: nowrap;
       }
 
-      /* the first star's scaffold dissolves as it comes into view */
-      .first-star .frame {
-        border-color: rgba(232, 234, 238, calc(0.14 * var(--dissolve)));
-      }
-      .first-star .c,
-      .first-star .tag {
+      /* the first star's label dissolves as it comes into view */
+      .first-star .label {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 4rem;
         opacity: var(--dissolve);
       }
 
@@ -245,11 +247,6 @@
       /* ================= first star ================= */
       .first-star {
         text-align: center;
-        padding-top: 16rem;
-      }
-      .first-star .frame {
-        max-width: 36rem;
-        margin: 0 auto;
       }
       .first-star .core-assembly {
         position: relative;
@@ -478,10 +475,7 @@
       </section>
 
       <section class="first-star wrap">
-        <div class="frame dashed">
-          <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b
-          ><b class="c br"></b>
-          <span class="tag">02 / the first star — forming</span>
+        <p class="label">02 / the first star — forming</p>
           <div class="core-assembly" aria-hidden="true">
             <div class="ring"></div>
             <div class="core"></div>
@@ -495,7 +489,6 @@
           <p class="forming">
             now forming — first light soon<span class="blink">_</span>
           </p>
-        </div>
       </section>
 
       <footer class="reveal">
