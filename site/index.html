@@ -7,15 +7,18 @@
   <meta name="description" content="Astrogenesis forms stars: communities that produce light." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Space+Mono&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #07090c;
       --ink: #e8eaee;
       --ink-dim: #9aa1ac;
       --ink-faint: #5c636e;
-      --line: rgba(232, 234, 238, 0.12);
+      --line: rgba(232, 234, 238, 0.14);
+      --line-bright: rgba(232, 234, 238, 0.38);
       --glow: rgba(220, 228, 255, 0.9);
+      --mono: "Space Mono", ui-monospace, monospace;
+      --sans: "Space Grotesk", system-ui, sans-serif;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,7 +36,7 @@
       overflow-x: hidden;
     }
 
-    /* ---- star field ---- */
+    /* ================= layer 0: the cosmos ================= */
     .stars {
       position: fixed;
       inset: 0;
@@ -55,20 +58,63 @@
       0%, 100% { opacity: 0.15; }
       50% { opacity: 0.75; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .stars i.tw { animation: none; }
-      html { scroll-behavior: auto; }
-    }
 
-    main { position: relative; z-index: 1; }
+    /* ================= layer 1: the scaffold ================= */
+    /* survey crosshairs pinned over the field */
+    .marks {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+      opacity: 0.5;
+    }
+    .marks b { position: absolute; font-weight: 400; }
+
+    main { position: relative; z-index: 2; }
 
     .wrap {
-      max-width: 40rem;
+      max-width: 42rem;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
-    /* ---- hero ---- */
+    /* framed sections with corner brackets, like a technical drawing */
+    .frame {
+      position: relative;
+      border: 1px solid var(--line);
+      padding: 3.5rem 2.5rem;
+    }
+    .frame.dashed { border-style: dashed; }
+    .frame .c {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 0 solid var(--line-bright);
+    }
+    .frame .c.tl { top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px; }
+    .frame .c.tr { top: -1px; right: -1px; border-top-width: 1px; border-right-width: 1px; }
+    .frame .c.bl { bottom: -1px; left: -1px; border-bottom-width: 1px; border-left-width: 1px; }
+    .frame .c.br { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
+
+    /* mono label sitting on the frame's top border */
+    .tag {
+      position: absolute;
+      top: -0.7em;
+      left: 1.25rem;
+      background: var(--bg);
+      padding: 0 0.6em;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      white-space: nowrap;
+    }
+
+    /* ================= hero ================= */
     .hero {
       min-height: 92svh;
       display: flex;
@@ -76,24 +122,29 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      position: relative;
+      padding: 0 1.5rem;
+    }
+    .hero .frame {
+      padding: 3rem clamp(1.5rem, 6vw, 4.5rem);
     }
     .wordmark {
-      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-family: var(--sans);
       font-weight: 300;
-      font-size: clamp(1.6rem, 5vw, 2.6rem);
+      font-size: clamp(1.5rem, 5vw, 2.6rem);
       letter-spacing: 0.42em;
-      text-indent: 0.42em; /* balance the trailing tracking */
+      text-indent: 0.42em;
       text-transform: uppercase;
       color: var(--ink);
     }
-    .hero p {
+    .hero .sub {
       margin-top: 2.2rem;
-      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      font-size: clamp(1.15rem, 3vw, 1.4rem);
       color: var(--ink-dim);
       font-style: italic;
       max-width: 26em;
     }
-    .hero p b {
+    .hero .sub b {
       font-weight: 400;
       font-style: normal;
       color: var(--ink);
@@ -105,54 +156,54 @@
       transform: translateX(-50%);
       color: var(--ink-faint);
       text-decoration: none;
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      font-size: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
     }
     .down:hover { color: var(--ink-dim); }
-    .hero { position: relative; }
 
-    /* ---- sections ---- */
-    section { padding: 7rem 0; }
-
-    .kicker {
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-bottom: 2.5rem;
-    }
+    /* ================= sections ================= */
+    section { padding: 5.5rem 0; }
 
     section p + p { margin-top: 1.4rem; }
     section p { color: var(--ink-dim); }
-    section p strong {
-      font-weight: 400;
-      color: var(--ink);
-    }
+    section p strong { font-weight: 400; color: var(--ink); }
 
-    /* ---- first star ---- */
-    .first-star {
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      text-align: center;
+    /* ================= first star ================= */
+    .first-star { text-align: center; }
+    .first-star .core-assembly {
       position: relative;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 2.8rem;
+    }
+    .first-star .ring {
+      position: absolute;
+      inset: 0;
+      border: 1px dashed var(--line-bright);
+      border-radius: 50%;
+      animation: rotate 60s linear infinite;
+    }
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
     }
     .first-star .core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       width: 6px;
       height: 6px;
+      margin: -3px 0 0 -3px;
       border-radius: 50%;
       background: var(--glow);
-      margin: 0 auto 3rem;
       box-shadow:
         0 0 12px 2px rgba(220, 228, 255, 0.55),
         0 0 40px 10px rgba(180, 196, 255, 0.18),
         0 0 90px 30px rgba(150, 170, 255, 0.07);
     }
     .first-star h2 {
-      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-family: var(--sans);
       font-weight: 300;
       font-size: 1.1rem;
       letter-spacing: 0.35em;
@@ -164,21 +215,26 @@
     .first-star p { max-width: 30em; margin-left: auto; margin-right: auto; }
     .forming {
       margin-top: 2.8rem;
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--ink-faint);
     }
+    .forming .blink { animation: blink 2.4s step-end infinite; }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
 
-    /* ---- footer ---- */
+    /* ================= footer ================= */
     footer {
       padding: 4rem 0 3.5rem;
       text-align: center;
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
       color: var(--ink-faint);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
     }
     footer a {
       color: var(--ink-dim);
@@ -187,9 +243,31 @@
       padding-bottom: 1px;
     }
     footer a:hover { color: var(--ink); border-color: var(--ink-dim); }
+
+    /* ================= transitions ================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: 0.15s; }
+    .reveal.d2 { transition-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .stars i.tw, .first-star .ring, .forming .blink { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    @media (max-width: 480px) {
+      .frame { padding: 2.5rem 1.4rem; }
+      .marks { display: none; }
+    }
   </style>
 </head>
 <body>
+  <!-- layer 0: the cosmos -->
   <div class="stars" aria-hidden="true">
     <i class="s"  style="top:6%;  left:12%"></i>
     <i class="m tw" style="top:11%; left:78%; animation-delay:-1s"></i>
@@ -213,44 +291,81 @@
     <i class="s"  style="top:96%; left:45%"></i>
   </div>
 
+  <!-- layer 1: survey marks -->
+  <div class="marks" aria-hidden="true">
+    <b style="top:8%;  left:5%">+</b>
+    <b style="top:12%; right:7%">+</b>
+    <b style="top:46%; left:9%">+</b>
+    <b style="top:55%; right:5%">+</b>
+    <b style="top:88%; left:6%">+</b>
+    <b style="top:82%; right:9%">+</b>
+  </div>
+
   <main>
     <header class="hero">
-      <h1 class="wordmark">Astrogenesis</h1>
-      <p><b>Astrogenesis forms stars.</b><br />Communities that produce light.</p>
-      <a class="down" href="#about">About</a>
+      <div class="frame reveal">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        <span class="tag">layer 1 / lobby</span>
+        <h1 class="wordmark">Astrogenesis</h1>
+      </div>
+      <p class="sub reveal d1"><b>Astrogenesis forms stars.</b><br />Communities that produce light.</p>
+      <a class="down reveal d2" href="#about">▾ about</a>
     </header>
 
     <section id="about" class="wrap">
-      <p class="kicker">What we do</p>
-      <p>
-        <strong>A star is a social organization together with the work it produces.</strong>
-        At its core is the community itself — people organized around a shared purpose, a
-        shared practice, and the actual social experience of a group.
-      </p>
-      <p>
-        What radiates outward is the light: the art, writing, software, and experiences the
-        community makes.
-      </p>
-      <p>
-        Astrogenesis is the scaffold around that — the infrastructure, knowledge, and
-        practices for forming stars.
-      </p>
+      <div class="frame reveal">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        <span class="tag">01 / what we do</span>
+        <p>
+          <strong>A star is a social organization together with the work it produces.</strong>
+          At its core is the community itself — people organized around a shared purpose, a
+          shared practice, and the actual social experience of a group.
+        </p>
+        <p>
+          What radiates outward is the light: the art, writing, software, and experiences the
+          community makes.
+        </p>
+        <p>
+          Astrogenesis is the scaffold around that — the infrastructure, knowledge, and
+          practices for forming stars.
+        </p>
+      </div>
     </section>
 
-    <section class="first-star">
-      <div class="wrap">
-        <div class="core" aria-hidden="true"></div>
+    <section class="first-star wrap">
+      <div class="frame dashed reveal">
+        <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b><b class="c br"></b>
+        <span class="tag">02 / the first star — forming</span>
+        <div class="core-assembly" aria-hidden="true">
+          <div class="ring"></div>
+          <div class="core"></div>
+        </div>
         <h2>The First Star</h2>
         <p>
           An album in seven stages. Essays that walk its arc. A world to move through.
         </p>
-        <p class="forming">Now forming — first light soon</p>
+        <p class="forming">now forming — first light soon<span class="blink">_</span></p>
       </div>
     </section>
 
-    <footer>
-      <p>The work is versioned in the open — <a href="https://github.com/tbutler1132/astrogenesis">github.com/tbutler1132/astrogenesis</a></p>
+    <footer class="reveal">
+      <p>the work is versioned in the open — <a href="https://github.com/tbutler1132/astrogenesis">github.com/tbutler1132/astrogenesis</a></p>
     </footer>
   </main>
+
+  <script>
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const els = document.querySelectorAll(".reveal");
+    if (reduced || !("IntersectionObserver" in window)) {
+      els.forEach(el => el.classList.add("in"));
+    } else {
+      const io = new IntersectionObserver(entries => {
+        for (const e of entries) {
+          if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+        }
+      }, { threshold: 0.2 });
+      els.forEach(el => io.observe(el));
+    }
+  </script>
 </body>
 </html>
