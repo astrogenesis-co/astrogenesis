@@ -1,0 +1,11 @@
+{
+  "name": "astrogenesis",
+  "compatibility_date": "2026-09-08",
+  "assets": {
+    "directory": "./site"
+  },
+  "routes": [
+    { "pattern": "astrogenesis.co", "custom_domain": true },
+    { "pattern": "www.astrogenesis.co", "custom_domain": true }
+  ]
+}
