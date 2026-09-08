@@ -36,6 +36,7 @@ Underneath the structure is a personal conviction: that a life should be a redem
 | [`stages/`](stages/) | One file per track of the current album, following its narrative stages |
 | [`songs/`](songs/)   | The song catalog — each file is one named song idea                     |
 | [`essays/`](essays/) | Essays 1–7, one per stage, plus essay 0 introducing the album           |
+| [`site/`](site/)     | The website — astrogenesis.co, the public interface                     |
 | `media/`             | DAW projects, mixes, and stems (not tracked in git)                     |
 
 ## Status
