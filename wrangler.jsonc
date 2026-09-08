@@ -2,7 +2,8 @@
   "name": "astrogenesis",
   "compatibility_date": "2026-09-08",
   "assets": {
-    "directory": "./site"
+    "directory": "./site",
+    "not_found_handling": "404-page"
   },
   "routes": [
     { "pattern": "astrogenesis.co", "custom_domain": true },

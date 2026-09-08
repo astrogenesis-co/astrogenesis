@@ -8,18 +8,94 @@
       name="description"
       content="Astrogenesis forms stars: organizations that produce light."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="theme-color" content="#07090c" />
+    <link rel="canonical" href="https://astrogenesis.co/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Astrogenesis" />
+    <meta property="og:title" content="Astrogenesis" />
+    <meta
+      property="og:description"
+      content="Astrogenesis forms stars: organizations that produce light."
+    />
+    <meta property="og:url" content="https://astrogenesis.co/" />
+    <meta property="og:image" content="https://astrogenesis.co/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Astrogenesis" />
+    <meta
+      name="twitter:description"
+      content="Astrogenesis forms stars: organizations that produce light."
+    />
+    <meta name="twitter:image" content="https://astrogenesis.co/og.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Space+Mono&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/space-grotesk.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/newsreader.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/newsreader-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/space-mono.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <style>
+      @font-face {
+        font-family: "Space Grotesk";
+        src: url("/fonts/space-grotesk.woff2") format("woff2");
+        font-weight: 300 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        src: url("/fonts/newsreader.woff2") format("woff2");
+        font-weight: 200 800;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        src: url("/fonts/newsreader-italic.woff2") format("woff2");
+        font-weight: 200 800;
+        font-style: italic;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("/fonts/space-mono.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       :root {
         --bg: #07090c;
         --ink: #e8eaee;
         --ink-dim: #9aa1ac;
-        --ink-faint: #5c636e;
+        --ink-faint: #767e8b; /* 4.9:1 on --bg; keep ≥4.5 for the mono labels */
         --line: rgba(232, 234, 238, 0.14);
         --line-bright: rgba(232, 234, 238, 0.38);
         --glow: rgba(220, 228, 255, 0.9);
@@ -50,11 +126,14 @@
       }
 
       /* ================= layer 0: the cosmos ================= */
+      /* two depths: .far drifts slower than .near under scroll (see script).
+         layers overshoot the viewport so the drift never uncovers an edge */
       .stars {
         position: fixed;
-        inset: 0;
+        inset: -12% 0;
         pointer-events: none;
         z-index: 0;
+        will-change: transform;
       }
       .stars i {
         position: absolute;
@@ -76,6 +155,11 @@
         height: 3px;
         opacity: 0.8;
         box-shadow: 0 0 8px 1px rgba(220, 228, 255, 0.35);
+      }
+      .stars.far i {
+        width: 1px;
+        height: 1px;
+        opacity: 0.2;
       }
       .stars i.tw {
         animation: twinkle 5s ease-in-out infinite;
@@ -112,10 +196,11 @@
         z-index: 2;
       }
 
+      /* horizontal only — sections own their vertical rhythm */
       .wrap {
         max-width: 46rem;
         margin: 0 auto;
-        padding: 0 1.75rem;
+        padding-inline: 1.75rem;
       }
 
       /* framed sections with corner brackets, like a technical drawing */
@@ -208,11 +293,12 @@
         color: var(--ink);
       }
       .hero .sub {
-        margin-top: 2.8rem;
+        margin-top: clamp(2rem, 5vw, 2.8rem);
         font-size: clamp(1.25rem, 3vw, 1.55rem);
         color: var(--ink-dim);
         font-style: italic;
-        max-width: 26em;
+        max-width: 22em;
+        text-wrap: balance;
       }
       .hero .sub b {
         font-weight: 400;
@@ -230,7 +316,7 @@
 
       /* ================= sections ================= */
       section {
-        padding: 11rem 0;
+        padding-block: clamp(6rem, 16vw, 9rem);
       }
 
       section p + p {
@@ -238,6 +324,7 @@
       }
       section p {
         color: var(--ink-dim);
+        text-wrap: pretty;
       }
       section p strong {
         font-weight: 400;
@@ -350,6 +437,10 @@
         color: var(--ink);
         border-color: var(--ink-dim);
       }
+      footer a:focus-visible {
+        outline: 1px solid var(--line-bright);
+        outline-offset: 4px;
+      }
 
       /* ================= transitions ================= */
       .reveal {
@@ -391,7 +482,29 @@
           padding: 3rem 1.6rem;
         }
         .hero .frame {
-          padding: 3rem 1.6rem;
+          padding: 2.6rem 1.4rem;
+        }
+        /* wide tracking crowds small screens; ease it off and let the
+           size track the viewport so the mark never breaks its frame */
+        .wordmark {
+          font-size: clamp(1.05rem, 5.5vw, 1.7rem);
+          letter-spacing: 0.3em;
+          text-indent: 0.3em;
+        }
+        .first-star h2 {
+          letter-spacing: 0.28em;
+          text-indent: 0.28em;
+        }
+        .first-star .label {
+          margin-bottom: 3rem;
+        }
+        .first-star .core-assembly {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 2.6rem;
+        }
+        .wrap {
+          padding-inline: 1.25rem;
         }
         .marks {
           display: none;
@@ -400,8 +513,31 @@
     </style>
   </head>
   <body>
-    <!-- layer 0: the cosmos -->
-    <div class="stars" aria-hidden="true">
+    <!-- layer 0: the cosmos — a far, slower field behind the near one -->
+    <div class="stars far" aria-hidden="true">
+      <i style="top: 4%; left: 26%"></i>
+      <i style="top: 9%; left: 55%"></i>
+      <i style="top: 14%; left: 88%"></i>
+      <i style="top: 18%; left: 17%"></i>
+      <i style="top: 23%; left: 42%"></i>
+      <i style="top: 27%; left: 68%"></i>
+      <i style="top: 32%; left: 3%"></i>
+      <i style="top: 36%; left: 79%"></i>
+      <i style="top: 41%; left: 51%"></i>
+      <i style="top: 45%; left: 24%"></i>
+      <i style="top: 50%; left: 92%"></i>
+      <i style="top: 54%; left: 62%"></i>
+      <i style="top: 59%; left: 11%"></i>
+      <i style="top: 64%; left: 37%"></i>
+      <i style="top: 68%; left: 74%"></i>
+      <i style="top: 73%; left: 49%"></i>
+      <i style="top: 79%; left: 86%"></i>
+      <i style="top: 84%; left: 7%"></i>
+      <i style="top: 89%; left: 57%"></i>
+      <i style="top: 94%; left: 33%"></i>
+      <i style="top: 97%; left: 71%"></i>
+    </div>
+    <div class="stars near" aria-hidden="true">
       <i class="s" style="top: 6%; left: 12%"></i>
       <i class="m tw" style="top: 11%; left: 78%; animation-delay: -1s"></i>
       <i class="s" style="top: 15%; left: 34%"></i>
@@ -476,19 +612,19 @@
 
       <section class="first-star wrap">
         <p class="label">02 / the first star — forming</p>
-          <div class="core-assembly" aria-hidden="true">
-            <div class="ring"></div>
-            <div class="core"></div>
-            <div class="core-bloom"></div>
-          </div>
-          <h2>The First Star</h2>
-          <p>
-            An album in seven stages. Essays that walk its arc. A world to move
-            through.
-          </p>
-          <p class="forming">
-            now forming — first light soon<span class="blink">_</span>
-          </p>
+        <div class="core-assembly" aria-hidden="true">
+          <div class="ring"></div>
+          <div class="core"></div>
+          <div class="core-bloom"></div>
+        </div>
+        <h2>The First Star</h2>
+        <p>
+          An album in seven stages. Essays that walk its arc. A world to move
+          through.
+        </p>
+        <p class="forming">
+          now forming — first light soon<span class="blink">_</span>
+        </p>
       </section>
 
       <footer class="reveal">
@@ -524,30 +660,38 @@
 
       // scaffold dissolve: construction gives way to the cosmos as the star nears
       const star = document.querySelector(".first-star");
+      const nearField = document.querySelector(".stars.near");
+      const farField = document.querySelector(".stars.far");
       let ticking = false;
-      function dissolve() {
+      function onScroll() {
         ticking = false;
         const r = star.getBoundingClientRect();
         const vh = window.innerHeight;
-        // frame arrives fully drawn, dissolves between 75% and 35% viewport height
-        const p = Math.min(1, Math.max(0, (vh * 0.75 - r.top) / (vh * 0.4)));
+        // frame arrives fully drawn, dissolves between 80% and 35% viewport height
+        const p = Math.min(1, Math.max(0, (vh * 0.8 - r.top) / (vh * 0.45)));
         const eased = p * p * (3 - 2 * p); // smoothstep
         document.documentElement.style.setProperty(
           "--dissolve",
           String(1 - eased),
         );
+        // faint parallax: near field drifts a touch faster than the far one
+        if (!reduced) {
+          const y = window.scrollY;
+          nearField.style.transform = `translateY(${y * -0.03}px)`;
+          farField.style.transform = `translateY(${y * -0.012}px)`;
+        }
       }
       window.addEventListener(
         "scroll",
         () => {
           if (!ticking) {
             ticking = true;
-            requestAnimationFrame(dissolve);
+            requestAnimationFrame(onScroll);
           }
         },
         { passive: true },
       );
-      dissolve();
+      onScroll();
     </script>
   </body>
 </html>
