@@ -8,3 +8,5 @@ tmp/
 !.dev.vars.example
 .env*
 !.env.example
+
+private/
