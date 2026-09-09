@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Writing — Astrogenesis</title>
+    <meta
+      name="description"
+      content="Essays from Astrogenesis on creative work, provenance, and forming stars."
+    />
+    <meta name="theme-color" content="#07090c" />
+    <link rel="canonical" href="https://astrogenesis.co/writing" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Astrogenesis" />
+    <meta property="og:title" content="Writing — Astrogenesis" />
+    <meta
+      property="og:description"
+      content="Essays from Astrogenesis on creative work, provenance, and forming stars."
+    />
+    <meta property="og:url" content="https://astrogenesis.co/writing" />
+    <meta property="og:image" content="https://astrogenesis.co/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Writing — Astrogenesis" />
+    <meta
+      name="twitter:description"
+      content="Essays from Astrogenesis on creative work, provenance, and forming stars."
+    />
+    <meta name="twitter:image" content="https://astrogenesis.co/og.png" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link
+      rel="preload"
+      href="/fonts/space-grotesk.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/newsreader.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/space-mono.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      @font-face {
+        font-family: "Space Grotesk";
+        src: url("/fonts/space-grotesk.woff2") format("woff2");
+        font-weight: 300 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        src: url("/fonts/newsreader.woff2") format("woff2");
+        font-weight: 200 800;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Newsreader";
+        src: url("/fonts/newsreader-italic.woff2") format("woff2");
+        font-weight: 200 800;
+        font-style: italic;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("/fonts/space-mono.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --bg: #07090c;
+        --ink: #e8eaee;
+        --ink-dim: #9aa1ac;
+        --ink-faint: #767e8b;
+        --line: rgba(232, 234, 238, 0.14);
+        --line-bright: rgba(232, 234, 238, 0.38);
+        --glow: rgba(220, 228, 255, 0.9);
+        --mono: "Space Mono", ui-monospace, monospace;
+        --sans: "Space Grotesk", system-ui, sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Newsreader", Georgia, serif;
+        font-weight: 300;
+        font-size: 1.2rem;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      .stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .stars i {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+        background: var(--glow);
+      }
+      .stars i.s {
+        width: 1px;
+        height: 1px;
+        opacity: 0.3;
+      }
+      .stars i.m {
+        opacity: 0.5;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 0 1.75rem;
+      }
+
+      .top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 2.2rem 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .top .home {
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 0.95rem;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .top .home:hover {
+        color: var(--glow);
+      }
+      .top .crumb {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+
+      h1 {
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 1.4rem;
+        letter-spacing: 0.3em;
+        text-indent: 0.3em;
+        text-transform: uppercase;
+        color: var(--ink);
+        text-align: center;
+        margin: 5rem 0 1.2rem;
+      }
+      .lede {
+        text-align: center;
+        color: var(--ink-dim);
+        font-style: italic;
+        max-width: 26em;
+        margin: 0 auto 5rem;
+        text-wrap: balance;
+      }
+
+      .essay-list {
+        list-style: none;
+      }
+      .essay-list li + li {
+        margin-top: 2rem;
+      }
+      .essay-card {
+        display: block;
+        position: relative;
+        border: 1px solid var(--line);
+        padding: 2.4rem 2.2rem;
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 0.3s ease;
+      }
+      .essay-card:hover {
+        border-color: var(--line-bright);
+      }
+      .essay-card .c {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border: 0 solid var(--line-bright);
+      }
+      .essay-card .c.tl {
+        top: -1px;
+        left: -1px;
+        border-top-width: 1px;
+        border-left-width: 1px;
+      }
+      .essay-card .c.tr {
+        top: -1px;
+        right: -1px;
+        border-top-width: 1px;
+        border-right-width: 1px;
+      }
+      .essay-card .c.bl {
+        bottom: -1px;
+        left: -1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+      }
+      .essay-card .c.br {
+        bottom: -1px;
+        right: -1px;
+        border-bottom-width: 1px;
+        border-right-width: 1px;
+      }
+      .essay-card .meta {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 1rem;
+      }
+      .essay-card h2 {
+        font-family: var(--sans);
+        font-weight: 300;
+        font-size: 1.35rem;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-bottom: 0.8rem;
+      }
+      .essay-card p {
+        color: var(--ink-dim);
+        font-size: 1.05rem;
+        text-wrap: pretty;
+      }
+
+      footer {
+        padding: 6rem 0 4.5rem;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.06em;
+      }
+      footer a {
+        color: var(--ink-dim);
+        text-decoration: none;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 1px;
+      }
+      footer a:hover {
+        color: var(--ink);
+        border-color: var(--ink-dim);
+      }
+      footer a:focus-visible {
+        outline: 1px solid var(--line-bright);
+        outline-offset: 4px;
+      }
+
+      @media (max-width: 480px) {
+        .essay-card {
+          padding: 1.8rem 1.4rem;
+        }
+        h1 {
+          margin-top: 3.5rem;
+        }
+        main {
+          padding-inline: 1.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true">
+      <i class="s" style="top: 8%; left: 14%"></i>
+      <i class="m" style="top: 13%; left: 72%"></i>
+      <i class="s" style="top: 22%; left: 41%"></i>
+      <i class="s" style="top: 31%; left: 88%"></i>
+      <i class="m" style="top: 44%; left: 9%"></i>
+      <i class="s" style="top: 52%; left: 63%"></i>
+      <i class="s" style="top: 66%; left: 27%"></i>
+      <i class="m" style="top: 74%; left: 81%"></i>
+      <i class="s" style="top: 85%; left: 50%"></i>
+      <i class="s" style="top: 93%; left: 12%"></i>
+    </div>
+
+    <main>
+      <nav class="top">
+        <a class="home" href="/">Astrogenesis</a>
+        <span class="crumb">writing</span>
+      </nav>
+
+      <h1>Writing</h1>
+
+      <ul class="essay-list">
+        <li>
+          <a class="essay-card" href="/writing/when-anyone-can-make-anything">
+            <b class="c tl"></b><b class="c tr"></b><b class="c bl"></b
+            ><b class="c br"></b>
+            <p class="meta">001 — september 2026</p>
+            <h2>When Anyone Can Make Anything</h2>
+            <p>
+              AI has made creative production nearly free. Objects are now
+              abundant; the human context they used to prove is scarce. What
+              Astrogenesis is, and why now.
+            </p>
+          </a>
+        </li>
+      </ul>
+
+      <footer>
+        <p>
+          the work is versioned in the open at
+          <a href="https://github.com/orgs/astrogenesis-co/projects/2"
+            >github.com/orgs/astrogenesis-co/projects/2</a
+          >
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
