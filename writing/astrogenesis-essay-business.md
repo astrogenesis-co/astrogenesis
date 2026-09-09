@@ -1,7 +1,5 @@
 # Astrogenesis (plain version)
 
-**The group is the product. The work is the proof.**
-
 ## The problem
 
 AI tools have made creative production nearly free. A finished-sounding song, a polished essay, a working app — any of these now takes an afternoon. The result is a flood of competent output, and almost none of it holds anyone's attention.
