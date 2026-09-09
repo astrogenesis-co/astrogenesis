@@ -30,14 +30,16 @@ Underneath the structure is a personal conviction: that a life should be a redem
 
 ## Repository layout
 
-| Directory            | Contents                                                                |
-| -------------------- | ----------------------------------------------------------------------- |
-| [`albums/`](albums/) | Album concepts — the planned track sequence and the idea behind it      |
-| [`stages/`](stages/) | One file per track of the current album, following its narrative stages |
-| [`songs/`](songs/)   | The song catalog — each file is one named song idea                     |
-| [`essays/`](essays/) | Essays 1–7, one per stage, plus essay 0 introducing the album           |
-| [`site/`](site/)     | The website — astrogenesis.co, the public interface                     |
-| `media/`             | DAW projects, mixes, and stems (not tracked in git)                     |
+| Directory | Contents |
+| --------- | -------- |
+| [`stars/first-star/`](stars/first-star/) | The first star — everything it produces lives here |
+| [`stars/first-star/albums/`](stars/first-star/albums/) | Album concepts — the planned track sequence and the idea behind it |
+| [`stars/first-star/stages/`](stars/first-star/stages/) | One file per track of the current album, following its narrative stages |
+| [`stars/first-star/songs/`](stars/first-star/songs/) | The song catalog — each file is one named song idea |
+| [`stars/first-star/essays/`](stars/first-star/essays/) | Essays 1–7, one per stage, plus essay 0 introducing the album |
+| [`writing/`](writing/) | Essays in the voice of Astrogenesis itself — the scaffold, not the star |
+| [`site/`](site/) | The website — astrogenesis.co, the public interface |
+| `media/` | DAW projects, mixes, and stems (not tracked in git; stays at the top level so DAW file references keep working) |
 
 ## Status
 
