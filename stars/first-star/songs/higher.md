@@ -4,6 +4,7 @@ type: Song
 title: Higher
 named:
 created: 2026-09-05
+status: notes
 ---
 
 AI written example

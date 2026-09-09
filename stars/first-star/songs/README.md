@@ -14,6 +14,7 @@ id: coldness
 type: Song
 title: Coldness
 created: 2026-09-06
+status: notes
 ---
 
 _The idea is not yet written._
@@ -21,6 +22,6 @@ _The idea is not yet written._
 Notes, history, and fragments follow.
 ```
 
-The body holds the song's idea once it is articulated; until then it carries the placeholder line plus any notes worth keeping.
+The body holds notes, history, and fragments — raw material, written as it comes. `status` tracks the state of that writing: `notes` means raw history in progress; a later state (e.g. `distilled`) will mark a body that has been rewritten into its finished public form. The placeholder line appears only while the body is otherwise empty; once notes exist, it comes out.
 
 Audio for a song — DAW projects, dated mixes, and stems — lives under `media/` at the repo root (untracked), keyed by the same song id.
