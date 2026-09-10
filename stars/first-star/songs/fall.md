@@ -6,4 +6,6 @@ created: 2026-09-06
 status: notes
 ---
 
-I think this one was "Fall For You". Not sure the motive there or why I would pick that song.
+- I believe this came from a phase when I wanted to try and rework some late 2000s songs
+- Picked "Fall For You"
+- Did the rework, but not much I could do with it, but I liked the instrumental so kept it around. Now called Fall

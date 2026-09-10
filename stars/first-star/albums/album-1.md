@@ -5,6 +5,10 @@ title: Album 1
 created: 2026-09-05
 ---
 
+## Sound
+
+Going through algorithms etc. code
+
 The concept of this album is based on the biblical narrative. Tracks correspond accordingly:
 
 1. Creation

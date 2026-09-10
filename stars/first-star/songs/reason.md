@@ -6,4 +6,4 @@ created: 2026-09-06
 status: notes
 ---
 
-This started from the Torture scene in "Homeland". Turned into...
+_The idea is not yet written._
