@@ -4,6 +4,7 @@ type: Song
 title: Mania
 created: 2026-09-06
 status: notes
+stage: demo
 ---
 
 - Also pretty earlier

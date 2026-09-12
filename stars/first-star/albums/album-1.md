@@ -11,6 +11,8 @@ created: 2026-09-05
 
 The composition underneath is more conventional real melody, real song structure, recognizable emotion. That's the carrier. It then gets processed as far as it will go through code, algorithms, and DSP. distorted, warped, made weird and alien. But the processing doesn't kill the aliveness.
 
+## Concept
+
 The concept of this album is based on the biblical narrative. Tracks correspond accordingly:
 
 1. Creation
@@ -20,3 +22,5 @@ The concept of this album is based on the biblical narrative. Tracks correspond 
 5. Crucifixion
 6. Resurrection
 7. Love
+
+- I was always drawn to the album format

@@ -4,6 +4,7 @@ type: Song
 title: Genesis
 created: 2026-09-06
 status: notes
+stage: demo
 ---
 
 - Perhaps the earliest song here

@@ -4,6 +4,7 @@ type: Song
 title: Bury The Sun
 created: 2026-09-06
 status: notes
+stage: demo
 ---
 
 This was another song, like Song:anyone that that was done pretty quickly and felt like a pretty raw emotional translation.

@@ -4,6 +4,7 @@ type: Song
 title: All the Things You Love
 created: 2026-09-06
 status: notes
+stage: idea
 ---
 
 I remember starting this one. This was one of the many times I tried to hold myself to some sort of consistent schedule to create and release music. I tried doing one "beat" a week. I actually kind of liked the schedule I laid out, and felt like the 1st week went pretty well (Could share "Marry Me" beat).

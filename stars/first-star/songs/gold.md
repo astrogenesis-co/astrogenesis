@@ -4,6 +4,7 @@ type: Song
 title: Gold
 created: 2026-09-06
 status: notes
+stage: demo
 ---
 
 - This one started with me wanting to use a different approach than usual. Tried just writing the composition up front before actually making the beat

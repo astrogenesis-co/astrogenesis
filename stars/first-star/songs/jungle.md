@@ -4,6 +4,7 @@ type: Song
 title: Jungle
 created: 2026-09-06
 status: notes
+stage: idea
 ---
 
 - This one I kind of did a Billy Walsh from Entourage
