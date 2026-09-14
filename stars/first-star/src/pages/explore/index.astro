@@ -1,0 +1,295 @@
+---
+import Explore from "../../layouts/Explore.astro";
+import { getCatalog, kinds, href, dateLabel } from "../../lib/catalog.mjs";
+const entities = getCatalog();
+const statuses = [...new Set(entities.map((e) => e.status))].sort();
+const recent = [...entities]
+  .filter((e) => e.updated)
+  .sort((a, b) => b.updated.localeCompare(a.updated))
+  .slice(0, 4);
+---
+
+<Explore>
+  <main id="main" class="catalog-shell">
+    <aside class="sidebar">
+      <p class="eyebrow">The open studio</p>
+      <h2>Explore</h2>
+      <p class="side-intro">
+        The pieces.
+        <br />
+        The connections.
+        <br />
+        The work becoming.
+      </p>
+      <fieldset class="collections">
+        <legend>Collections</legend>
+        <label>
+          <input type="radio" name="type" value="all" checked />
+          <span>
+            <b>◎</b> Everything <small>{entities.length}</small>
+          </span>
+        </label>
+        {Object.entries(kinds).map(([group, type]) => (
+          <label>
+            <input type="radio" name="type" value={group} />
+            <span>
+              <b>
+                {{ songs: "♫", albums: "◉", stages: "◇", essays: "≡" }[group]}
+              </b>{" "}
+              {group[0].toUpperCase() + group.slice(1)}{" "}
+              <small>{entities.filter((e) => e.group === group).length}</small>
+            </span>
+          </label>
+        ))}
+      </fieldset>
+      <div class="side-note">
+        <span class="eyebrow">An open record</span>
+        <p>
+          Ideas, fragments, and things still taking shape. Follow any thread.
+        </p>
+      </div>
+    </aside>
+    <section class="catalog-main" aria-labelledby="catalog-title">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">First Star / Working catalog</p>
+          <h1 id="catalog-title">Everything begins somewhere.</h1>
+          <p>Explore the raw material of a star in formation.</p>
+        </div>
+        <span class="catalog-count">
+          <strong>{entities.length}</strong> entities
+        </span>
+      </div>
+      <form class="toolbar" role="search" onsubmit="return false">
+        <label class="search">
+          <span aria-hidden="true">⌕</span>
+          <span class="sr-only">Search the catalog</span>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search names, notes, and ideas…"
+            autocomplete="off"
+          />
+        </label>
+        <label class="select-label">
+          Writing{" "}
+          <select id="status">
+            <option value="all">All states</option>
+            {statuses.map((s) => (
+              <option value={s}>{s[0].toUpperCase() + s.slice(1)}</option>
+            ))}
+          </select>
+        </label>
+        <label class="select-label">
+          Song progress{" "}
+          <select id="progress">
+            <option value="all">All stages</option>
+            {[
+              ...new Set(
+                entities.filter((e) => e.progress).map((e) => e.progress),
+              ),
+            ]
+              .sort()
+              .map((s) => (
+                <option value={s}>{s[0].toUpperCase() + s.slice(1)}</option>
+              ))}
+          </select>
+        </label>
+        <label class="select-label">
+          Sort{" "}
+          <select id="sort">
+            <option value="name">Name A–Z</option>
+            <option value="updated">Last committed</option>
+          </select>
+        </label>
+      </form>
+      <div class="results-header">
+        <p id="result-count" role="status" aria-live="polite">
+          {entities.length} entities
+        </p>
+        <button id="clear" type="button">
+          Reset filters ↺
+        </button>
+      </div>
+      <noscript>
+        <p class="notice">
+          All records are listed below. Enable JavaScript to search and filter.
+        </p>
+      </noscript>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Entity</th>
+              <th scope="col">Type</th>
+              <th scope="col">Writing</th>
+              <th scope="col">Song progress</th>
+              <th scope="col">Last committed</th>
+            </tr>
+          </thead>
+          <tbody id="records">
+            {entities.map((e) => (
+              <tr
+                data-group={e.group}
+                data-status={e.status}
+                data-progress={e.progress}
+                data-name={e.title.toLowerCase()}
+                data-search={`${e.title} ${e.id} ${e.body}`.toLowerCase()}
+                data-updated={e.updated || ""}
+              >
+                <td>
+                  <a class="entity-link" href={href(e.key)}>
+                    <span
+                      class:list={["entity-symbol", e.group]}
+                      aria-hidden="true"
+                    >
+                      {
+                        { songs: "♫", albums: "◉", stages: "◇", essays: "≡" }[
+                          e.group
+                        ]
+                      }
+                    </span>
+                    <span>
+                      <strong>{e.title}</strong>
+                      <small>{e.id}</small>
+                    </span>
+                    <span class="row-arrow" aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                </td>
+                <td>{e.type}</td>
+                <td>
+                  <span class:list={["badge", e.status]}>{e.status}</span>
+                </td>
+                <td>{e.progress || "—"}</td>
+                <td>
+                  <time datetime={e.updated || undefined}>
+                    {dateLabel(e.updated)}
+                  </time>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div id="empty" class="empty-state" hidden={entities.length > 0}>
+        <span aria-hidden="true">◎</span>
+        <h2>No matching entities.</h2>
+        <p>Try another phrase or reset the filters.</p>
+      </div>
+      <div class="catalog-bottom">
+        <span>
+          <i class="small-dot"></i> Unfinished is a state, not an absence.
+        </span>
+        <span>Read-only · Source connected</span>
+      </div>
+      <section class="recent">
+        <div class="section-heading">
+          <h2>Recently committed</h2>
+          <span>From the project’s Git history</span>
+        </div>
+        <div class="recent-grid">
+          {recent.map((e) => (
+            <a href={href(e.key)}>
+              <span class="eyebrow">
+                {e.type} / {dateLabel(e.updated)}
+              </span>
+              <h3>{e.title}</h3>
+              <p>{e.excerpt}</p>
+              <span class="recent-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </a>
+          ))}
+        </div>
+      </section>
+    </section>
+  </main>
+</Explore>
+<script>
+  const search = document.querySelector<HTMLInputElement>("#search")!;
+  const status = document.querySelector<HTMLSelectElement>("#status")!;
+  const progress = document.querySelector<HTMLSelectElement>("#progress")!;
+  const sort = document.querySelector<HTMLSelectElement>("#sort")!;
+  const types = [
+    ...document.querySelectorAll<HTMLInputElement>('input[name="type"]'),
+  ];
+  const tbody = document.querySelector("#records")!;
+  const rows = [...tbody.querySelectorAll<HTMLTableRowElement>("tr")];
+  function readURL() {
+    const params = new URLSearchParams(location.search);
+    search.value = params.get("q") || "";
+    for (const [key, select] of [
+      ["status", status],
+      ["progress", progress],
+      ["sort", sort],
+    ] as const) {
+      const value = params.get(key);
+      select.value = [...select.options].some((o) => o.value === value)
+        ? value!
+        : select.options[0].value;
+    }
+    const type = types.find((t) => t.value === params.get("type")) || types[0];
+    type.checked = true;
+  }
+  function update(writeURL = true) {
+    const type = types.find((t) => t.checked)!.value;
+    const terms = search.value
+      .toLowerCase()
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    let visible = 0;
+    rows.sort((a, b) =>
+      sort.value === "updated"
+        ? (b.dataset.updated || "").localeCompare(a.dataset.updated || "") ||
+          a.dataset.name!.localeCompare(b.dataset.name!)
+        : a.dataset.name!.localeCompare(b.dataset.name!),
+    );
+    for (const row of rows) {
+      row.hidden = !(
+        (type === "all" || row.dataset.group === type) &&
+        (status.value === "all" || row.dataset.status === status.value) &&
+        (progress.value === "all" || row.dataset.progress === progress.value) &&
+        terms.every((t) => row.dataset.search!.includes(t))
+      );
+      if (!row.hidden) visible++;
+      tbody.append(row);
+    }
+    document.querySelector("#result-count")!.textContent =
+      `${visible} of ${rows.length} entities`;
+    (document.querySelector("#empty") as HTMLElement).hidden = visible > 0;
+    if (writeURL) {
+      const p = new URLSearchParams();
+      if (search.value) p.set("q", search.value);
+      if (type !== "all") p.set("type", type);
+      if (status.value !== "all") p.set("status", status.value);
+      if (progress.value !== "all") p.set("progress", progress.value);
+      if (sort.value !== "name") p.set("sort", sort.value);
+      history.replaceState(
+        null,
+        "",
+        `${location.pathname}${p.size ? "?" + p : ""}`,
+      );
+    }
+  }
+  search.addEventListener("input", () => update());
+  [status, progress, sort, ...types].forEach((el) =>
+    el.addEventListener("change", () => update()),
+  );
+  document.querySelector("#clear")!.addEventListener("click", () => {
+    search.value = "";
+    status.value = "all";
+    progress.value = "all";
+    sort.value = "name";
+    types[0].checked = true;
+    update();
+  });
+  window.addEventListener("popstate", () => {
+    readURL();
+    update(false);
+  });
+  readURL();
+  update(false);
+</script>

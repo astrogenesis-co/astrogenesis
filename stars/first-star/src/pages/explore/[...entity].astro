@@ -1,0 +1,114 @@
+---
+import Explore from "../../layouts/Explore.astro";
+import { getCatalog, href, dateLabel } from "../../lib/catalog.mjs";
+export function getStaticPaths() {
+  return getCatalog().map((entity) => ({
+    params: { entity: entity.key },
+    props: { entity },
+  }));
+}
+const { entity: e } = Astro.props;
+---
+
+<Explore
+  title={e.title}
+  description={`${e.type} in First Star’s working catalog. ${e.excerpt}`}
+>
+  <main id="main" class="detail-shell">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/explore/">Explore</a>
+      <span>/</span>
+      <a href={`/explore/?type=${e.group}`}>{e.group}</a>
+      <span>/</span>
+      <span>{e.title}</span>
+    </nav>
+    <div class="detail-grid">
+      <article>
+        <p class="eyebrow">
+          {e.type} / {e.id}
+        </p>
+        <h1 class="detail-title">{e.title}</h1>
+        <div class="detail-status">
+          <span class:list={["badge", e.status]}>{e.status}</span>
+          <span>
+            {e.status === "unwritten"
+              ? "A place for work still to come."
+              : "Working material, in its current form."}
+          </span>
+        </div>
+        <section class="body-section" aria-labelledby="notes-heading">
+          <h2 id="notes-heading" class="eyebrow">
+            {e.status === "unwritten" ? "Still to come" : "Current notes"}
+          </h2>
+          {e.html ? (
+            <div class="prose" set:html={e.html} />
+          ) : (
+            <div class="unwritten-body">
+              <span aria-hidden="true">◇</span>
+              <p>
+                This {e.type.toLowerCase()} has a place in the project.
+                <br />
+                Its words are still to come.
+              </p>
+            </div>
+          )}
+        </section>
+        {e.body && (
+          <details class="raw">
+            <summary>View raw Markdown</summary>
+            <pre>{e.body}</pre>
+          </details>
+        )}
+      </article>
+      <aside class="inspector">
+        <section>
+          <h2 class="eyebrow">Record</h2>
+          <dl>
+            <dt>Type</dt>
+            <dd>{e.type}</dd>
+            <dt>Writing status</dt>
+            <dd>{e.status}</dd>
+            {e.progress && (
+              <>
+                <dt>Song progress</dt>
+                <dd>{e.progress}</dd>
+              </>
+            )}
+            <dt>Created</dt>
+            <dd>{dateLabel(e.created)}</dd>
+            <dt>Last committed</dt>
+            <dd>{dateLabel(e.updated)}</dd>
+          </dl>
+        </section>
+        <section>
+          <h2 class="eyebrow">
+            Connections <span class="connection-count">{e.links.length}</span>
+          </h2>
+          {e.links.length ? (
+            <ul class="connections">
+              {e.links.map((l) => (
+                <li>
+                  <a href={href(l.key)}>
+                    <small>{l.label}</small>
+                    <span>
+                      {l.title}
+                      <b aria-hidden="true">↗</b>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="muted">No connections recorded yet.</p>
+          )}
+        </section>
+        <section class="source-links">
+          <h2 class="eyebrow">At the source</h2>
+          <a href={e.sourceUrl}>Open source file ↗</a>
+          <a href={e.historyUrl}>View history on GitHub ↗</a>
+          <p class="source-path">{e.source}</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+</Explore>

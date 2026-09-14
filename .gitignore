@@ -10,3 +10,9 @@ tmp/
 !.env.example
 
 private/
+
+# First Star website build output
+node_modules/
+.astro/
+stars/first-star/dist/
+stars/first-star/preview-dist/

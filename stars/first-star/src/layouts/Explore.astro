@@ -1,0 +1,57 @@
+---
+import "../styles/explore.css";
+import { preview } from "../lib/catalog.mjs";
+const {
+  title = "Explore",
+  description = "The working catalog of First Star. Follow songs, albums, stages, and essays as they take shape.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — First Star</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#101214" />
+    {preview && <meta name="robots" content="noindex, nofollow" />}
+    <link
+      rel="canonical"
+      href={new URL(Astro.url.pathname, "https://first.astrogenesis.co")}
+    />
+    <link rel="icon" href="/favicon.png" />
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="star" aria-hidden="true">
+          ✳
+        </span>{" "}
+        FIRST STAR
+      </a>
+      <nav aria-label="Main">
+        <a href="/">Home</a>
+        <a href="/explore/" aria-current="page">
+          Explore
+        </a>
+      </nav>
+      <span class="working">
+        <i></i> A work in progress
+      </span>
+    </header>
+    {preview && (
+      <div class="preview-bar">
+        Local preview · Includes unpublished notes and drafts
+      </div>
+    )}
+    <slot />
+    <footer class="explore-footer">
+      <span>Nothing here has to be finished to matter.</span>
+      <a href="https://astrogenesis.co/">Formed through Astrogenesis ↗</a>
+    </footer>
+  </body>
+</html>
