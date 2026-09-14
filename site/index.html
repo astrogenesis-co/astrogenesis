@@ -408,6 +408,19 @@
       .forming .blink {
         animation: blink 2.4s step-end infinite;
       }
+      .star-link {
+        display: inline-block;
+        margin-top: 2rem;
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 1rem;
+        text-underline-offset: 0.35em;
+      }
+      .star-link:hover { color: var(--ink-dim); }
+      .star-link:focus-visible {
+        outline: 1px solid var(--ink);
+        outline-offset: 6px;
+      }
       @keyframes blink {
         0%,
         100% {
@@ -651,6 +664,7 @@
         <p class="forming">
           now forming — first release soon<span class="blink">_</span>
         </p>
+        <a class="star-link" href="https://first.astrogenesis.co/">Enter First Star <span aria-hidden="true">↗</span></a>
       </section>
 
       <footer class="reveal">

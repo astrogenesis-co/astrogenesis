@@ -39,7 +39,38 @@ Underneath the structure is a personal conviction: that a life should be a redem
 | [`stars/first-star/essays/`](stars/first-star/essays/) | Essays 1–7, one per stage, plus essay 0 introducing the album |
 | [`writing/`](writing/) | Essays in the voice of Astrogenesis itself — the scaffold, not the star |
 | [`site/`](site/) | The website — astrogenesis.co, the public interface |
+| [`stars/first-star/site/`](stars/first-star/site/) | First Star’s public website — first.astrogenesis.co |
 | `media/` | DAW projects, mixes, and stems (not tracked in git; stays at the top level so DAW file references keep working) |
+
+## Websites
+
+Both websites are static Cloudflare Workers deployments from this repository.
+Astrogenesis publishes only `site/`; First Star publishes only
+`stars/first-star/site/`. Songs, draft essays, and other source material outside
+those directories are not uploaded by these deployments.
+
+Run these commands from the repository root with Node.js and Wrangler available:
+
+```sh
+# Preview First Star locally
+npx wrangler dev --config stars/first-star/wrangler.jsonc
+
+# Validate its deployment without publishing
+npx wrangler deploy --config stars/first-star/wrangler.jsonc --dry-run
+
+# Publish First Star before publishing the homepage link to it
+npx wrangler deploy --config stars/first-star/wrangler.jsonc
+
+# Publish the Astrogenesis site
+npx wrangler deploy --config wrangler.jsonc
+```
+
+Deployment requires a Cloudflare login with access to the `astrogenesis.co` zone.
+The First Star configuration attaches `first.astrogenesis.co` as a custom domain;
+Cloudflare manages its DNS record and certificate. It has its own Worker,
+`astrogenesis-first-star`, so the two sites can be released independently.
+Fonts and icons are copied into the star’s public directory so it can serve them
+independently. Only place material intended for publication in either site directory.
 
 ## Status
 
