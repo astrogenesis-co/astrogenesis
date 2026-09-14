@@ -160,8 +160,9 @@ Work is tracked in [GitHub issues](https://github.com/tbutler1132/astrogenesis/i
 Mix records live in `stars/first-star/mixes/`. `song` links each version to a
 song; `mix_date` is derived from the filename, not filesystem timestamps.
 `normalized`, `duration_seconds`, `source_file`, and `source_sha256` preserve the
-listening version's provenance. There are 74 normalized versions across 22 songs,
-The two undated Higher versions were removed at the owner’s request.
+listening version's provenance. The catalog contains 65 normalized versions across 22 songs.
+The two undated Higher versions and nine redundant dated versions were removed
+at the owner’s request. Their source audio remains archived locally.
 
 The supplied normalized WAVs are copied to `media/mixes-normalized/` without
 changing them. MP3 listening copies are encoded with LAME quality 2 at 48 kHz,
@@ -184,15 +185,15 @@ npm --prefix stars/first-star run dev
 npm --prefix stars/first-star run audio:upload
 ```
 
-The R2 bucket `astrogenesis-audio` serves the 74 approved normalized MP3 copies
+The R2 bucket `astrogenesis-audio` hosts the normalized MP3 listening copies
 through `media.astrogenesis.co`. R2 is enabled in
 `stars/first-star/audio.storage.json`; public builds link to R2 and exclude audio
 binaries. Local preview continues to use `media/listening/`. Upload and verify new
 listening copies before deploying catalog changes that reference them.
 
 Upload receipts are stored locally in `media/listening/r2-uploaded.json` to allow
-resuming interrupted uploads. Only dated mixes are uploaded. The old dated Reason and Stars MP3 URLs redirect
-to their normalized copies; the removed undated Higher URLs return 404.
+resuming interrupted uploads. Only dated mixes are uploaded. The old dated Reason MP3 URL redirects to its normalized copy; the removed
+Stars and undated Higher URLs return 404.
 Normalized source WAVs are local archives; only the compressed listening copies
 are intended for the public bucket.
 
