@@ -72,3 +72,25 @@ test("relationships are reciprocal, respect publication, and do not guess song a
   );
   assert.equal(published[0].links.length, 0);
 });
+
+test("mixes have validated audio paths and reciprocal song relationships", () => {
+  const mix = parseEntity(
+    "---\nsong: songs/higher\nfile: higher-full-demo.mp3\n---\nDemo",
+    "mixes",
+    "higher-full-demo.md",
+  );
+  const song = parseEntity("Notes", "songs", "higher.md");
+  connectEntities([mix, song]);
+  assert.ok(mix.audio.endsWith("/mixes/higher-full-demo.mp3"));
+  assert.equal(mix.links[0].label, "Song");
+  assert.equal(song.links[0].label, "Mix");
+  assert.throws(
+    () =>
+      parseEntity(
+        "---\nsong: songs/higher\nfile: ../../private.mp3\n---",
+        "mixes",
+        "unsafe.md",
+      ),
+    /plain MP3 filename/,
+  );
+});

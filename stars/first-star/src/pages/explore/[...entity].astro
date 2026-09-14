@@ -2,12 +2,21 @@
 import Explore from "../../layouts/Explore.astro";
 import { getCatalog, href, dateLabel } from "../../lib/catalog.mjs";
 export function getStaticPaths() {
-  return getCatalog().map((entity) => ({
+  const catalog = getCatalog();
+  return catalog.map((entity) => ({
     params: { entity: entity.key },
-    props: { entity },
+    props: {
+      entity,
+      mixes:
+        entity.group === "mixes"
+          ? [entity]
+          : catalog
+              .filter((m) => m.song === entity.key)
+              .sort((a, b) => (b.mixDate || "").localeCompare(a.mixDate || "")),
+    },
   }));
 }
-const { entity: e } = Astro.props;
+const { entity: e, mixes } = Astro.props;
 ---
 
 <Explore
@@ -36,6 +45,46 @@ const { entity: e } = Astro.props;
               : "Working material, in its current form."}
           </span>
         </div>
+        {mixes.length > 0 && (
+          <section class="mix-players" aria-labelledby="mixes-heading">
+            <h2 id="mixes-heading" class="eyebrow">
+              {e.group === "mixes" ? "Listen" : `Mixes / ${mixes.length}`}
+            </h2>
+            {mixes.map((m) => (
+              <div class="mix-player">
+                <div class="mix-heading">
+                  <a href={href(m.key)}>{m.title}</a>
+                  {m.mixDate && (
+                    <time datetime={m.mixDate}>{dateLabel(m.mixDate)}</time>
+                  )}
+                </div>
+                <p class="audio-version">
+                  {m.normalized
+                    ? "Normalized listening copy"
+                    : "Original listening copy"}
+                  {m.duration
+                    ? ` · ${Math.floor(m.duration / 60)}:${String(Math.floor(m.duration % 60)).padStart(2, "0")}`
+                    : ""}
+                </p>
+                <audio
+                  controls
+                  preload="none"
+                  aria-label={`Play ${m.title}`}
+                  src={m.audio}
+                >
+                  Your browser does not support audio playback.{" "}
+                  <a href={m.audio}>Open MP3</a>
+                </audio>
+                <a class="audio-download" href={m.audio} download>
+                  Download MP3 ↓
+                </a>
+                <p class="audio-error" hidden>
+                  Audio could not be loaded. Try the MP3 link above.
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
         <section class="body-section" aria-labelledby="notes-heading">
           <h2 id="notes-heading" class="eyebrow">
             {e.status === "unwritten" ? "Still to come" : "Current notes"}
@@ -66,6 +115,16 @@ const { entity: e } = Astro.props;
           <dl>
             <dt>Type</dt>
             <dd>{e.type}</dd>
+            {e.file && (
+              <>
+                <dt>Format</dt>
+                <dd>MP3</dd>
+                <dt>Listening version</dt>
+                <dd>{e.normalized ? "Normalized" : "Original"}</dd>
+                <dt>Version date</dt>
+                <dd>{dateLabel(e.mixDate)}</dd>
+              </>
+            )}
             <dt>Writing status</dt>
             <dd>{e.status}</dd>
             {e.progress && (
@@ -104,11 +163,32 @@ const { entity: e } = Astro.props;
         </section>
         <section class="source-links">
           <h2 class="eyebrow">At the source</h2>
-          <a href={e.sourceUrl}>Open source file ↗</a>
-          <a href={e.historyUrl}>View history on GitHub ↗</a>
+          {e.updated ? (
+            <>
+              <a href={e.sourceUrl}>Open source file ↗</a>
+              <a href={e.historyUrl}>View history on GitHub ↗</a>
+            </>
+          ) : (
+            <p class="muted">This record has not been committed yet.</p>
+          )}
           <p class="source-path">{e.source}</p>
         </section>
       </aside>
     </div>
   </main>
 </Explore>
+<script>
+  const players = [...document.querySelectorAll("audio")];
+  players.forEach((player) => {
+    player.addEventListener("play", () =>
+      players.forEach((other) => {
+        if (other !== player) other.pause();
+      }),
+    );
+    player.addEventListener("error", () => {
+      const notice =
+        player.parentElement?.querySelector<HTMLElement>(".audio-error");
+      if (notice) notice.hidden = false;
+    });
+  });
+</script>

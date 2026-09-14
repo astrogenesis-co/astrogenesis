@@ -130,3 +130,48 @@ Work is tracked in [GitHub issues](https://github.com/tbutler1132/astrogenesis/i
 3. **Essays complete** — essays 0–7
 4. **Website Complete** — the end-to-end experience
 5. **Launch**
+
+### Mixes and normalized audio
+
+Mix records live in `stars/first-star/mixes/`. `song` links each version to a
+song; `mix_date` is derived from the filename, not filesystem timestamps.
+`normalized`, `duration_seconds`, `source_file`, and `source_sha256` preserve the
+listening version's provenance. There are 74 normalized versions across 22 songs,
+The two undated Higher versions were removed at the owner’s request.
+
+The supplied normalized WAVs are copied to `media/mixes-normalized/` without
+changing them. MP3 listening copies are encoded with LAME quality 2 at 48 kHz,
+without further gain or loudness processing, into `media/listening/`. All audio
+remains outside Git. The original files in `media/mixes/` are unchanged.
+
+From the repository root:
+
+```sh
+# Initial import (or supply another normalized source directory)
+python3 scripts/prepare-listening-audio.py /path/to/mix_downs_normalized
+
+# Reuse the imported normalized WAVs
+python3 scripts/prepare-listening-audio.py
+
+# Preview the full local catalog and its listening copies
+npm --prefix stars/first-star run dev
+
+# Upload public listening copies to R2, after approving publication
+npm --prefix stars/first-star run audio:upload
+```
+
+The R2 bucket `astrogenesis-audio` serves the 74 approved normalized MP3 copies
+through `media.astrogenesis.co`. R2 is enabled in
+`stars/first-star/audio.storage.json`; public builds link to R2 and exclude audio
+binaries. Local preview continues to use `media/listening/`. Upload and verify new
+listening copies before deploying catalog changes that reference them.
+
+Upload receipts are stored locally in `media/listening/r2-uploaded.json` to allow
+resuming interrupted uploads. Only dated mixes are uploaded. The old dated Reason and Stars MP3 URLs redirect
+to their normalized copies; the removed undated Higher URLs return 404.
+Normalized source WAVs are local archives; only the compressed listening copies
+are intended for the public bucket.
+
+On song pages, dated mixes are ordered newest first and normalized copies are
+labeled. Playback is user-initiated; starting another player on the same page
+pauses the previous one. Restart the dev server after replacing an audio file.

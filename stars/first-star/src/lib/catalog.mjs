@@ -10,12 +10,16 @@ export const kinds = {
   albums: "Album",
   stages: "Stage",
   essays: "Essay",
+  mixes: "Mix",
 };
 // npm runs these scripts from this package root; import.meta.url moves when
 // Astro bundles the module into its temporary prerender directory.
 const root = process.cwd();
 const repo = "https://github.com/tbutler1132/astrogenesis";
 export const preview = process.env.EXPLORE_PREVIEW === "1";
+const audioStorage = JSON.parse(
+  readFileSync(join(root, "audio.storage.json"), "utf8"),
+);
 export const href = (key) => `/explore/${key}/`;
 export const dateLabel = (date) =>
   date
@@ -40,6 +44,14 @@ export function parseEntity(source, group, filename) {
   const body = content.trim();
   const placeholder = !body || /^_The idea is not yet written\._$/.test(body);
   const key = `${group}/${id}`;
+  if (
+    group === "mixes" &&
+    (!/^songs\/[a-z0-9-]+$/.test(data.song || "") ||
+      !/^[a-z0-9-]+\.mp3$/.test(data.file || ""))
+  )
+    throw new Error(
+      `Mix requires a song reference and a plain MP3 filename: ${filename}`,
+    );
   return {
     key,
     id,
@@ -52,6 +64,15 @@ export function parseEntity(source, group, filename) {
     progress: group === "songs" ? data.stage || "not recorded" : "",
     created: data.created ? new Date(data.created).toISOString() : null,
     visibility: data.visibility || "private",
+    song: group === "mixes" ? data.song : null,
+    file: group === "mixes" ? data.file : null,
+    audio:
+      group === "mixes"
+        ? `${audioStorage.enabled && !preview ? audioStorage.publicBaseUrl : "/audio/mixes"}/${data.file}`
+        : null,
+    normalized: data.normalized === true,
+    duration: data.duration_seconds || null,
+    mixDate: data.mix_date ? new Date(data.mix_date).toISOString() : null,
     body: placeholder ? "" : body,
     html: placeholder
       ? ""
@@ -92,6 +113,7 @@ export function connectEntities(entities) {
   // Album 1's structure is explicitly documented in albums/README.md,
   // stages/README.md, and essays/README.md. Song assignments are not inferred.
   for (const e of entities) {
+    if (e.song) connect(e.key, e.song, "Song", "Mix");
     if (e.group === "stages" && /^[1-7]-/.test(e.id)) {
       connect("albums/album-1", e.key, "Stage", "Album");
       connect(e.key, `essays/${e.id}`, "Companion essay", "Album stage");
@@ -157,6 +179,8 @@ export function getCatalog() {
   if (new Set(keys).size !== keys.length)
     throw new Error("Duplicate catalog ID");
   for (const e of entities) {
+    if (e.song && !keys.includes(e.song))
+      throw new Error(`Unknown song for ${e.key}: ${e.song}`);
     if (
       !Array.isArray(e.references) ||
       e.references.some((k) => !keys.includes(k))

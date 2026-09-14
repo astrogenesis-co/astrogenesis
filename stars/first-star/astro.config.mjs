@@ -1,5 +1,8 @@
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "node:url";
+import { prepareAudio } from "./src/lib/audio-assets.mjs";
+
+prepareAudio();
 
 export default defineConfig({
   site: "https://first.astrogenesis.co",
@@ -18,6 +21,7 @@ export default defineConfig({
             "albums",
             "stages",
             "essays",
+            "mixes",
             "explore.public.json",
           ].map((p) => contentRoot + p);
           server.watcher.add(paths);
@@ -25,8 +29,10 @@ export default defineConfig({
             if (
               ["change", "add", "unlink"].includes(event) &&
               paths.some((p) => path === p || path.startsWith(p + "/"))
-            )
+            ) {
+              prepareAudio();
               server.ws.send({ type: "full-reload" });
+            }
           });
         },
       },

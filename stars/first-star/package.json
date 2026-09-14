@@ -9,6 +9,7 @@
     "preview": "astro preview --host 127.0.0.1",
     "preview:drafts": "EXPLORE_PREVIEW=1 astro preview --host 127.0.0.1",
     "test": "node --test tests/*.test.mjs",
+    "audio:upload": "node scripts/upload-audio.mjs",
     "format": "prettier --write src tests astro.config.mjs",
     "deploy": "npm run build && wrangler deploy --config wrangler.jsonc"
   },

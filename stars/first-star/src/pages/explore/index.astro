@@ -34,7 +34,15 @@ const recent = [...entities]
             <input type="radio" name="type" value={group} />
             <span>
               <b>
-                {{ songs: "♫", albums: "◉", stages: "◇", essays: "≡" }[group]}
+                {
+                  {
+                    songs: "♫",
+                    albums: "◉",
+                    stages: "◇",
+                    essays: "≡",
+                    mixes: "▷",
+                  }[group]
+                }
               </b>{" "}
               {group[0].toUpperCase() + group.slice(1)}{" "}
               <small>{entities.filter((e) => e.group === group).length}</small>
@@ -144,9 +152,13 @@ const recent = [...entities]
                       aria-hidden="true"
                     >
                       {
-                        { songs: "♫", albums: "◉", stages: "◇", essays: "≡" }[
-                          e.group
-                        ]
+                        {
+                          songs: "♫",
+                          albums: "◉",
+                          stages: "◇",
+                          essays: "≡",
+                          mixes: "▷",
+                        }[e.group]
                       }
                     </span>
                     <span>

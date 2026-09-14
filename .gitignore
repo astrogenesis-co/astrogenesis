@@ -16,3 +16,4 @@ node_modules/
 .astro/
 stars/first-star/dist/
 stars/first-star/preview-dist/
+stars/first-star/site/audio/mixes/
