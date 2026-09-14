@@ -23,6 +23,7 @@ export default defineConfig({
             "stages",
             "essays",
             "mixes",
+            "stems",
             "explore.public.json",
           ].map((p) => contentRoot + p);
           server.watcher.add(paths);

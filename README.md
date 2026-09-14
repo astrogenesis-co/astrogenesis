@@ -108,7 +108,7 @@ reference them. Local preview builds and private notes are not deployed.
 ### Explore
 
 Open `http://localhost:4321/explore/` while the First Star dev server is running.
-Explore reads `songs/`, `albums/`, `tracks/`, `stages/`, `essays/`, and `mixes/` directly. README files,
+Explore reads `songs/`, `albums/`, `tracks/`, `stages/`, `essays/`, `mixes/`, and `stems/` directly. README files,
 weekly plans, `private/`, and `media/` are excluded. Saving a catalog file reloads
 the local preview. The deployed site updates only after a fresh build and deploy.
 
@@ -166,8 +166,8 @@ at the owner’s request. Their source audio remains archived locally.
 
 The supplied normalized WAVs are copied to `media/mixes-normalized/` without
 changing them. MP3 listening copies are encoded with LAME quality 2 at 48 kHz,
-without further gain or loudness processing, into `media/listening/`. All audio
-remains outside Git. The original files in `media/mixes/` are unchanged.
+without further gain or loudness processing, into `media/listening/`. Mix audio
+remains outside Git. Curated stem listening copies are versioned separately (see below). The original files in `media/mixes/` are unchanged.
 
 From the repository root:
 
@@ -200,3 +200,12 @@ are intended for the public bucket.
 On song pages, dated mixes are ordered newest first and normalized copies are
 labeled. Playback is user-initiated; starting another player on the same page
 pauses the previous one. Restart the dev server after replacing an audio file.
+
+
+### Curated stems
+
+`stars/first-star/stems/` holds **Stems** records: deliberately prepared, named
+channel sets linked to a Song. Explore includes a Stems collection and shows a
+synchronized mixer on each set’s page and its song page. See
+[the stems guide](stars/first-star/stems/README.md) for the schema and workflow.
+Raw `media/stems/` exports are never scanned or published by this feature.

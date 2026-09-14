@@ -953,3 +953,90 @@ tbody tr:hover {
   font: 10px/1.6 var(--mono);
   margin: -7px 0 15px;
 }
+
+.stem-player {
+  display: block;
+  margin-top: 32px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--panel);
+}
+.stem-player button {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink);
+  padding: 9px 12px;
+  cursor: pointer;
+  font: 11px var(--mono);
+}
+.stem-player button[aria-pressed="true"],
+.stem-player [data-play] {
+  background: #a6d3cb;
+  color: #182322;
+}
+.stem-player button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.stem-player input {
+  accent-color: #a6d3cb;
+  min-width: 0;
+}
+.stem-transport,
+.stem-master,
+.stem-seek,
+.stem-level {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 11px var(--mono);
+}
+.stem-transport {
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.stem-seek input {
+  flex: 1;
+}
+.stem-channels {
+  margin: 20px 0;
+}
+.stem-channel {
+  display: grid;
+  grid-template-columns: 110px minmax(80px, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+  font-size: 13px;
+}
+.stem-level input {
+  width: 100%;
+}
+.stem-level output {
+  min-width: 4ch;
+}
+.stem-master {
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.stem-player :focus-visible {
+  outline: 2px solid #a6d3cb;
+  outline-offset: 3px;
+}
+.entity-symbol.stems {
+  color: #a6d3cb;
+}
+@media (max-width: 600px) {
+  .stem-player {
+    padding: 14px;
+  }
+  .stem-channel {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+  .stem-channel > span {
+    grid-column: 1 / -1;
+  }
+}
