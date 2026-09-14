@@ -39,4 +39,25 @@ export function prepareAudio() {
   }
   for (const mix of selected)
     copyFileSync(mix.path, join(destination, mix.file));
+  // Curated stem listening copies are versioned with their records. The raw
+  // media tree is never scanned, and private sets never enter public builds.
+  const stemSource = realpathSync(resolve("stems/audio"));
+  const stemDestination = resolve("site/audio/stems");
+  const channels = getCatalog()
+    .filter((e) => e.group === "stems")
+    .flatMap((e) => e.channels);
+  mkdirSync(stemDestination, { recursive: true });
+  for (const file of readdirSync(stemDestination))
+    if (!channels.some((c) => c.file === file) && file.endsWith(".mp3"))
+      unlinkSync(join(stemDestination, file));
+  for (const channel of channels) {
+    const path = realpathSync(join(stemSource, channel.file));
+    if (
+      !path.startsWith(stemSource + sep) ||
+      !statSync(path).isFile() ||
+      statSync(path).size > 25 * 1024 * 1024
+    )
+      throw new Error(`Invalid stem audio source: ${channel.file}`);
+    copyFileSync(path, join(stemDestination, channel.file));
+  }
 }

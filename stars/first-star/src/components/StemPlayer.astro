@@ -1,0 +1,92 @@
+---
+import { href } from "../lib/catalog.mjs";
+const { set } = Astro.props;
+---
+
+<stem-player class="stem-player" aria-label={`${set.title} mixer`}>
+  <div class="mix-heading">
+    <a href={href(set.key)}>{set.title}</a>
+    <span class="eyebrow">{set.channels.length} channels</span>
+  </div>
+  <p class="muted">
+    Explore the arrangement. Solo a part or make your own balance.
+  </p>
+  <div class="stem-transport">
+    <button type="button" data-play>
+      Play stems
+    </button>
+    <button type="button" data-reset>
+      Reset mix
+    </button>
+    <output data-time>0:00</output>
+  </div>
+  <label class="stem-seek">
+    Position
+    <input
+      data-seek
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0"
+      disabled
+      aria-label="Playback position"
+    />
+  </label>
+  <div class="stem-channels">
+    {set.channels.map((channel) => (
+      <div class="stem-channel" data-url={channel.audio}>
+        <span>{channel.label}</span>
+        <label class="stem-level">
+          <span class="sr-only">{channel.label} volume</span>
+          <input
+            data-volume
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value="100"
+          />
+          <output>100%</output>
+        </label>
+        <button
+          type="button"
+          data-mute
+          aria-pressed="false"
+          aria-label={`Mute ${channel.label}`}
+        >
+          Mute
+        </button>
+        <button
+          type="button"
+          data-solo
+          aria-pressed="false"
+          aria-label={`Solo ${channel.label}`}
+        >
+          Solo
+        </button>
+      </div>
+    ))}
+  </div>
+  <label class="stem-master">
+    Master volume
+    <input
+      data-master
+      type="range"
+      min="0"
+      max="100"
+      value="70"
+      aria-label="Master volume"
+    />
+    <output>70%</output>
+  </label>
+  <p data-status class="audio-version" role="status" aria-live="polite">
+    Audio loads when you press play.
+  </p>
+  <noscript>
+    <p>Enable JavaScript to use the stem mixer.</p>
+  </noscript>
+</stem-player>
+<script>
+  import "../lib/stem-player.mjs";
+</script>

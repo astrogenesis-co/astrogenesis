@@ -12,6 +12,7 @@ export const kinds = {
   stages: "Stage",
   essays: "Essay",
   mixes: "Mix",
+  stems: "Stems",
 };
 // npm runs these scripts from this package root; import.meta.url moves when
 // Astro bundles the module into its temporary prerender directory.
@@ -53,6 +54,25 @@ export function parseEntity(source, group, filename) {
     throw new Error(
       `Mix requires a song reference and a plain MP3 filename: ${filename}`,
     );
+  if (group === "stems") {
+    if (
+      !/^songs\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(data.song || "") ||
+      !Array.isArray(data.channels) ||
+      data.channels.length < 2 ||
+      data.channels.length > 16 ||
+      data.channels.some(
+        (c) =>
+          !c ||
+          typeof c.label !== "string" ||
+          !c.label.trim() ||
+          !/^[a-z0-9]+(?:-[a-z0-9]+)*\.mp3$/.test(c.file || ""),
+      ) ||
+      new Set(data.channels.map((c) => c.file)).size !== data.channels.length
+    )
+      throw new Error(
+        `Stems requires a song and 2–16 uniquely named MP3 channels: ${filename}`,
+      );
+  }
   if (group === "tracks") {
     const ref = (value, collection) =>
       typeof value === "string" &&
@@ -91,7 +111,11 @@ export function parseEntity(source, group, filename) {
     narrativeStage: group === "tracks" ? data.narrative_stage : null,
     trackNumber: group === "tracks" ? data.track_number : null,
     sources: group === "tracks" ? data.sources : [],
-    song: group === "mixes" ? data.song : null,
+    song: ["mixes", "stems"].includes(group) ? data.song : null,
+    channels:
+      group === "stems"
+        ? data.channels.map((c) => ({ ...c, audio: `/audio/stems/${c.file}` }))
+        : [],
     file: group === "mixes" ? data.file : null,
     audio:
       group === "mixes"
@@ -150,7 +174,7 @@ export function connectEntities(entities) {
         `Source song: ${source.part}`,
         "Used in track",
       );
-    if (e.song) connect(e.key, e.song, "Song", "Mix");
+    if (e.song) connect(e.key, e.song, "Song", e.type);
     if (e.group === "stages" && /^[1-7]-/.test(e.id)) {
       connect("albums/album-1", e.key, "Stage", "Album");
       connect(e.key, `essays/${e.id}`, "Companion essay", "Album stage");
