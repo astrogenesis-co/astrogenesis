@@ -19,6 +19,7 @@ export default defineConfig({
           const paths = [
             "songs",
             "albums",
+            "tracks",
             "stages",
             "essays",
             "mixes",

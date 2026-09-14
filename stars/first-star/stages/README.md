@@ -1,6 +1,6 @@
 # Stages
 
-A stage aligns with a track on an album. Where the album file ([`albums/`](../albums/)) states the overall concept and track order, each stage file develops what that one track is about — its place in the narrative arc and the concept it carries.
+A stage holds the narrative concept for a track on an album. The corresponding [`AlbumTrack`](../tracks/) record holds its musical arrangement and source-song choices. Where the album file ([`albums/`](../albums/)) states the overall concept and track order, each stage file develops what that one track is about — its place in the narrative arc and the concept it carries.
 
 Each stage also has a corresponding essay in [`essays/`](../essays/), which presents the lesson or story derived from that part of the arc.
 

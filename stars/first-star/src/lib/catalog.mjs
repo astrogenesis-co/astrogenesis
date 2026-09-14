@@ -8,6 +8,7 @@ import sanitize from "sanitize-html";
 export const kinds = {
   songs: "Song",
   albums: "Album",
+  tracks: "AlbumTrack",
   stages: "Stage",
   essays: "Essay",
   mixes: "Mix",
@@ -52,6 +53,28 @@ export function parseEntity(source, group, filename) {
     throw new Error(
       `Mix requires a song reference and a plain MP3 filename: ${filename}`,
     );
+  if (group === "tracks") {
+    const ref = (value, collection) =>
+      typeof value === "string" &&
+      new RegExp(`^${collection}/[a-z0-9]+(?:-[a-z0-9]+)*$`).test(value);
+    if (
+      !ref(data.album, "albums") ||
+      !ref(data.narrative_stage, "stages") ||
+      !Number.isInteger(data.track_number) ||
+      data.track_number < 1 ||
+      !Array.isArray(data.sources) ||
+      data.sources.some(
+        (source) =>
+          !source ||
+          !ref(source.song, "songs") ||
+          typeof source.part !== "string" ||
+          !source.part.trim(),
+      )
+    )
+      throw new Error(
+        `AlbumTrack requires album, narrative_stage, a positive track_number, and sources with song and part: ${filename}`,
+      );
+  }
   return {
     key,
     id,
@@ -64,6 +87,10 @@ export function parseEntity(source, group, filename) {
     progress: group === "songs" ? data.stage || "not recorded" : "",
     created: data.created ? new Date(data.created).toISOString() : null,
     visibility: data.visibility || "private",
+    album: group === "tracks" ? data.album : null,
+    narrativeStage: group === "tracks" ? data.narrative_stage : null,
+    trackNumber: group === "tracks" ? data.track_number : null,
+    sources: group === "tracks" ? data.sources : [],
     song: group === "mixes" ? data.song : null,
     file: group === "mixes" ? data.file : null,
     audio:
@@ -113,6 +140,16 @@ export function connectEntities(entities) {
   // Album 1's structure is explicitly documented in albums/README.md,
   // stages/README.md, and essays/README.md. Song assignments are not inferred.
   for (const e of entities) {
+    if (e.album) connect(e.key, e.album, "Album", `Track ${e.trackNumber}`);
+    if (e.narrativeStage)
+      connect(e.key, e.narrativeStage, "Narrative stage", "Album track");
+    for (const source of e.sources)
+      connect(
+        e.key,
+        source.song,
+        `Source song: ${source.part}`,
+        "Used in track",
+      );
     if (e.song) connect(e.key, e.song, "Song", "Mix");
     if (e.group === "stages" && /^[1-7]-/.test(e.id)) {
       connect("albums/album-1", e.key, "Stage", "Album");
@@ -179,6 +216,13 @@ export function getCatalog() {
   if (new Set(keys).size !== keys.length)
     throw new Error("Duplicate catalog ID");
   for (const e of entities) {
+    for (const target of [
+      e.album,
+      e.narrativeStage,
+      ...e.sources.map((s) => s.song),
+    ].filter(Boolean))
+      if (!keys.includes(target))
+        throw new Error(`Unknown track reference in ${e.source}: ${target}`);
     if (e.song && !keys.includes(e.song))
       throw new Error(`Unknown song for ${e.key}: ${e.song}`);
     if (

@@ -2,7 +2,7 @@
 
 A song represents an idea. It becomes real when it is named — everything about it (lyrics, sound, arrangement) can theoretically be completely replaced and it remains the same song.
 
-Songs live here as a flat catalog, independent of any album. They are worked on continuously; when an album is being made, tracks are made from songs (see [`albums/`](../albums/)).
+Songs live here as a flat catalog, independent of any album. They are worked on continuously; when an album is being made, tracks are assembled from parts of one or more songs in separate [`AlbumTrack` records](../tracks/). A song can contribute to multiple tracks (see [`albums/`](../albums/)).
 
 ## File format
 

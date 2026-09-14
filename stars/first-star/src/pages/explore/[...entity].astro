@@ -125,6 +125,12 @@ const { entity: e, mixes } = Astro.props;
                 <dd>{dateLabel(e.mixDate)}</dd>
               </>
             )}
+            {e.trackNumber && (
+              <>
+                <dt>Track number</dt>
+                <dd>{e.trackNumber}</dd>
+              </>
+            )}
             <dt>Writing status</dt>
             <dd>{e.status}</dd>
             {e.progress && (

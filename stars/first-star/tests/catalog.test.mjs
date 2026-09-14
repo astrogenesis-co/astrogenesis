@@ -94,3 +94,48 @@ test("mixes have validated audio paths and reciprocal song relationships", () =>
     /plain MP3 filename/,
   );
 });
+
+test("album tracks connect to albums, stages, and multiple source songs", () => {
+  const source = `---
+album: albums/album-1
+narrative_stage: stages/1-creation
+track_number: 1
+sources:
+  - song: songs/genesis
+    part: Opening texture
+  - song: songs/higher
+    part: Closing melody
+---`;
+  const track = parseEntity(source, "tracks", "album-1-creation.md");
+  const album = parseEntity("", "albums", "album-1.md");
+  const stage = parseEntity("", "stages", "1-creation.md");
+  const genesis = parseEntity("", "songs", "genesis.md");
+  const higher = parseEntity("", "songs", "higher.md");
+  connectEntities([track, album, stage, genesis, higher]);
+  assert.equal(track.type, "AlbumTrack");
+  assert.equal(track.status, "unwritten");
+  assert.equal(track.progress, "");
+  assert.equal(track.links.length, 4);
+  assert.ok(
+    album.links.some((l) => l.key === track.key && l.label === "Track 1"),
+  );
+  assert.ok(stage.links.some((l) => l.key === track.key));
+  assert.equal(genesis.links[0].label, "Used in track");
+  assert.equal(higher.links[0].key, track.key);
+  const publicTrack = parseEntity(source, "tracks", "album-1-creation.md");
+  const privateSong = parseEntity("", "songs", "genesis.md");
+  connectEntities(
+    selectPublished([publicTrack, privateSong], [publicTrack.key]),
+  );
+  assert.equal(publicTrack.links.length, 0);
+  for (const invalid of [
+    source.replace("albums/album-1", "songs/genesis"),
+    source.replace("track_number: 1", "track_number: 0"),
+    source.replace("part: Opening texture", "part: ''"),
+    source.replace("stages/1-creation", "songs/genesis"),
+  ])
+    assert.throws(
+      () => parseEntity(invalid, "tracks", "bad.md"),
+      /AlbumTrack requires/,
+    );
+});

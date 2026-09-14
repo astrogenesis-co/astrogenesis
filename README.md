@@ -9,7 +9,7 @@ There is one star so far which is built to become participatory. This repository
 ## How it works
 
 - A **song** is an idea. It becomes real when it is named, and it persists even as every part of it is replaced. Songs are worked on continuously, independent of any album.
-- An **album** is a concept, planned in advance as a sequence of tracks. **Tracks are made from songs** — a song is the raw material, a track is its realization inside an album's structure.
+- An **album** is a concept, planned in advance as a sequence of tracks. **Tracks are made from songs** — a song is the raw material, an **AlbumTrack** is an arrangement made from parts of one or more songs inside an album's structure.
 - Each track on an album corresponds to a **stage** of the album's narrative arc.
 - Each stage gets an **essay** presenting the lesson or story derived from that part of the arc, plus an introductory essay for the album as a whole.
 - The **website** is the public interface to all of it — the finished work is meant to be experienced there, not read out of this repo.
@@ -34,7 +34,8 @@ Underneath the structure is a personal conviction: that a life should be a redem
 | --------- | -------- |
 | [`stars/first-star/`](stars/first-star/) | The first star — everything it produces lives here |
 | [`stars/first-star/albums/`](stars/first-star/albums/) | Album concepts — the planned track sequence and the idea behind it |
-| [`stars/first-star/stages/`](stars/first-star/stages/) | One file per track of the current album, following its narrative stages |
+| [`stars/first-star/stages/`](stars/first-star/stages/) | Narrative concepts, one per stage |
+| [`stars/first-star/tracks/`](stars/first-star/tracks/) | Album track arrangements, with album, narrative stage, and source-song references |
 | [`stars/first-star/songs/`](stars/first-star/songs/) | The song catalog — each file is one named song idea |
 | [`stars/first-star/essays/`](stars/first-star/essays/) | Essays 1–7, one per stage, plus essay 0 introducing the album |
 | [`writing/`](writing/) | Essays in the voice of Astrogenesis itself — the scaffold, not the star |
@@ -57,7 +58,7 @@ release (22.12+ or 24+) and npm available:
 # Install First Star's locked dependencies
 npm --prefix stars/first-star ci
 
-# Preview all four catalog collections locally, including unpublished drafts
+# Preview all catalog collections locally, including unpublished drafts
 npm --prefix stars/first-star run dev
 
 # Run content-model tests
@@ -107,7 +108,7 @@ reference them. Local preview builds and private notes are not deployed.
 ### Explore
 
 Open `http://localhost:4321/explore/` while the First Star dev server is running.
-Explore reads `songs/`, `albums/`, `stages/`, and `essays/` directly. README files,
+Explore reads `songs/`, `albums/`, `tracks/`, `stages/`, `essays/`, and `mixes/` directly. README files,
 weekly plans, `private/`, and `media/` are excluded. Saving a catalog file reloads
 the local preview. The deployed site updates only after a fresh build and deploy.
 
@@ -135,6 +136,8 @@ related:
   - songs/genesis
   - stages/1-creation
 ```
+
+Album tracks use `album`, `narrative_stage`, `track_number`, and `sources` to record their structure (see [track format](stars/first-star/tracks/README.md)). These relationships appear in both directions in Explore.
 
 References must point to existing collection-qualified IDs. Explore shows both
 directions of each relationship and includes only published targets in public
