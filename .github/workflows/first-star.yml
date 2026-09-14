@@ -1,0 +1,71 @@
+name: First Star
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "stars/first-star/**"
+      - ".github/workflows/first-star.yml"
+  push:
+    branches: [main]
+    paths:
+      - "stars/first-star/**"
+      - ".github/workflows/first-star.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: first-star-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: stars/first-star
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0 # Catalog dates come from Git history.
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: stars/first-star/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npx --no-install wrangler deploy --dry-run --config wrangler.jsonc
+
+  deploy:
+    name: Deploy First Star
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: PROD
+      url: https://first.astrogenesis.co
+    defaults:
+      run:
+        working-directory: stars/first-star
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: stars/first-star/package-lock.json
+      - run: npm ci
+      - name: Build and publish approved content
+        run: npm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

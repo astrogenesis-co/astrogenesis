@@ -1,0 +1,66 @@
+name: Astrogenesis
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "wrangler.jsonc"
+      - "stars/first-star/package.json"
+      - "stars/first-star/package-lock.json"
+      - ".github/workflows/astrogenesis.yml"
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "wrangler.jsonc"
+      - "stars/first-star/package.json"
+      - "stars/first-star/package-lock.json"
+      - ".github/workflows/astrogenesis.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: astrogenesis-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Validate static deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: stars/first-star/package-lock.json
+      - run: npm --prefix stars/first-star ci
+      - name: Validate with the locked Wrangler version
+        run: stars/first-star/node_modules/.bin/wrangler deploy --dry-run --config wrangler.jsonc
+
+  deploy:
+    name: Deploy Astrogenesis
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: PROD
+      url: https://astrogenesis.co
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: stars/first-star/package-lock.json
+      - run: npm --prefix stars/first-star ci
+      - name: Publish static site
+        run: stars/first-star/node_modules/.bin/wrangler deploy --config wrangler.jsonc
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

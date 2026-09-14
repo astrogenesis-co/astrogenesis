@@ -83,6 +83,27 @@ Cloudflare manages its DNS record and certificate. It has its own Worker,
 Fonts and icons live in the star’s public directory so it can serve them
 independently. Everything under either `site/` directory is public static material.
 
+### Continuous deployment
+
+GitHub Actions validates pull requests and deploys changes pushed to `main`.
+The [First Star workflow](.github/workflows/first-star.yml) runs tests, builds
+approved public content, and validates the Worker before publishing. The
+[Astrogenesis workflow](.github/workflows/astrogenesis.yml) validates and publishes
+the static site. Each workflow watches its own site files; changes to the shared
+Wrangler dependency also trigger Astrogenesis. Both can be rerun manually with
+**Actions → workflow → Run workflow**, selecting `main`.
+
+Deployment jobs use the GitHub environment `PROD`, with environment secrets
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Pull request checks do not
+access that environment. The Cloudflare token must have permission to deploy
+Workers and manage their configured custom domains in the Astrogenesis account.
+Production jobs are serialized per site and deploy only from `main`.
+
+First Star fetches full Git history to preserve catalog dates and uses the normal
+production build, including the existing publication opt-in rules. Audio remains
+in R2; upload new listening copies before pushing public catalog entries that
+reference them. Local preview builds and private notes are not deployed.
+
 ### Explore
 
 Open `http://localhost:4321/explore/` while the First Star dev server is running.
