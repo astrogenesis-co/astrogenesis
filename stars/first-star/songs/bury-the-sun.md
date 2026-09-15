@@ -3,7 +3,7 @@ id: bury-the-sun
 type: Song
 title: Bury The Sun
 created: 2026-09-06
-song_created: 2026-01-26
+song_created: 2019-03-26
 status: notes
 stage: demo
 ---

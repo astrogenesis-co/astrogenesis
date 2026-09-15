@@ -3,7 +3,7 @@ id: genesis
 type: Song
 title: Genesis
 created: 2026-09-06
-song_created: 2026-01-26
+song_created: 2018-09-23
 status: notes
 stage: demo
 ---
