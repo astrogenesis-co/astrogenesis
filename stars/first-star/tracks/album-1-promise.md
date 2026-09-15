@@ -10,4 +10,11 @@ created: 2026-09-14
 status: notes
 ---
 
-_The idea is not yet written._
+- "Reason" should be main song
+- Could make Haromizer the 2nd half/outro
+- Kind of wavering
+  - Verses are positive
+  - Hook is initially pesmistic
+  - Harmonizer is optimistic
+
+- V1 -> H1 -> V2 -> H1 -> Bridge -> Harmonizer -> H2

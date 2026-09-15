@@ -107,6 +107,9 @@ reference them. Local preview builds and private notes are not deployed.
 
 ### Orbit experience prototype
 
+See the [orbit experience design brief](stars/first-star/docs/orbit-experience.md)
+for the agreed direction, current limitations, and proposed next steps.
+
 Open `http://localhost:4321/orbit/` with the First Star dev server running.
 This separate, unlinked experience study uses Three.js for a slow automatic
 orbit around a simple luminous First Star. A permanent helmet rim and digital
