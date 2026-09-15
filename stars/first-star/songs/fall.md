@@ -7,6 +7,6 @@ status: notes
 stage: demo
 ---
 
-- I believe this came from a phase when I wanted to try and rework some late 2000s songs
-- Picked "Fall For You"
-- Did the rework, but not much I could do with it, but I liked the instrumental so kept it around. Now called Fall
+- I believe this came from a phase when I wanted to try and rework some late 2000s songs.
+- Picked "Fall For You."
+- Did the rework, but there wasn't much I could do with it. I liked the instrumental, so I kept it around. Now called "Fall."

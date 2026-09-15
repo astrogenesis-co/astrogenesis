@@ -17,11 +17,9 @@ created: 2026-09-06
 status: notes
 ---
 
-_The idea is not yet written._
-
-Notes, history, and fragments follow.
+- Notes, history, and fragments go here, with one thought or closely related group of thoughts per bullet.
 ```
 
-The body holds notes, history, and fragments — raw material, written as it comes. `status` tracks the state of that writing: `notes` means raw history in progress; a later state (e.g. `distilled`) will mark a body that has been rewritten into its finished public form. The placeholder line appears only while the body is otherwise empty; once notes exist, it comes out.
+The body holds notes, history, and fragments as a bulleted list — raw material, written as it comes. Use `-` bullets, group related thoughts together, and use consistent punctuation. Short fragments are welcome; unfinished thoughts can end with an ellipsis. `status` tracks the state of that writing: `notes` means raw history in progress; a later state (e.g. `distilled`) will mark a body that has been rewritten into its finished public form. For songs without notes, use `_The idea is not yet written._` as the body. This placeholder appears only while the body is otherwise empty; once notes exist, it comes out.
 
 Audio for a song — DAW projects, dated mixes, and stems — lives under `media/` at the repo root (untracked), keyed by the same song id.

@@ -7,5 +7,5 @@ status: notes
 stage: demo
 ---
 
-- Idea for this was to try to get away from using progressions
-- Built around that steady static 808
+- The idea for this was to try to get away from using progressions.
+- Built around that steady, static 808.

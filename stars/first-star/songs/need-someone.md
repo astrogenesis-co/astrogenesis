@@ -7,4 +7,4 @@ status: notes
 stage: demo
 ---
 
-- Worked pretty intensely on this for a while
+- Worked pretty intensely on this for a while.
