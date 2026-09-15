@@ -35,6 +35,11 @@ const {
       </a>
       <nav aria-label="Main">
         <a href="/">Home</a>
+        {preview && (
+          <a href="/journey/" id="journey-return">
+            Journey
+          </a>
+        )}
         <a href="/explore/" aria-current="page">
           Explore
         </a>
@@ -48,6 +53,26 @@ const {
         Local preview · Includes unpublished notes and drafts
       </div>
     )}
+    {preview && <script>
+      const link = document.querySelector<HTMLAnchorElement>("#journey-return");
+      const stage = new URLSearchParams(location.search).get("journey");
+      if (
+        link &&
+        stage &&
+        [
+          "creation",
+          "fall",
+          "promise",
+          "incarnation",
+          "crucifixion",
+          "resurrection",
+          "love",
+        ].includes(stage)
+      ) {
+        link.href = `/journey/${stage}/`;
+        link.textContent = "← Back to journey";
+      }
+    </script>}
     <slot />
     <footer class="explore-footer">
       <span>Nothing here has to be finished to matter.</span>
