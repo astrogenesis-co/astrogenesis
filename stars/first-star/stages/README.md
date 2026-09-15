@@ -6,10 +6,12 @@ Each stage also has a corresponding essay in [`essays/`](../essays/), which pres
 
 ## Album 1 stages
 
-1. [Creation](1-creation.md)
-2. [Fall](2-fall.md)
-3. [Promise](3-promise.md)
-4. [Incarnation](4-incarnation.md)
-5. [Crucifixion](5-crucifixion.md)
-6. [Resurrection](6-resurrection.md)
-7. [Love](7-love.md)
+These stages use the biblical arc as a way to explore human experience. The names are symbolic rather than literal.
+
+1. [Creation](1-creation.md) — Beginnings, possibility, and the excitement of being alive.
+2. [Fall](2-fall.md) — Losing innocence and discovering that life is more complicated than it seemed.
+3. [Promise](3-promise.md) — Finding hope and a reason to keep going when things are uncertain.
+4. [Incarnation](4-incarnation.md) — Making something real: turning an idea, feeling, or belief into lived experience.
+5. [Crucifixion](5-crucifixion.md) — Suffering, pain, and the things that push us to our limits.
+6. [Resurrection](6-resurrection.md) — Coming back to life after loss, finding renewal, and beginning again.
+7. [Love](7-love.md) — Connection, care, and learning to love ourselves and others through it all.
