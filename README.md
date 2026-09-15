@@ -105,7 +105,22 @@ production build, including the existing publication opt-in rules. Audio remains
 in R2; upload new listening copies before pushing public catalog entries that
 reference them. Local preview builds and private notes are not deployed.
 
-### Explore
+### Orbit experience prototype
+
+Open `http://localhost:4321/orbit/` with the First Star dev server running.
+This separate, unlinked experience study uses Three.js for a slow automatic
+orbit around a simple luminous First Star. A permanent helmet rim and digital
+overlays frame the view. **Explore** brings up the existing catalog as a visor
+menu. Dismiss it with **Dismiss** or Escape; bringing it back keeps
+the current page, filters, and any playing audio. Navigating to another catalog
+page still uses the existing page navigation and can interrupt playback.
+
+The prototype includes a pause control, respects reduced-motion preferences,
+and falls back to a still star if WebGL is unavailable. It uses the same catalog
+publication rules as Explore. The Astrogenesis entrance/dissolve transition is
+reserved for a later experiment.
+
+### Explore catalog
 
 Open `http://localhost:4321/explore/` while the First Star dev server is running.
 Explore reads `songs/`, `albums/`, `tracks/`, `stages/`, `essays/`, `mixes/`, and `stems/` directly. README files,

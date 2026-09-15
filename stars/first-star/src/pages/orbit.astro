@@ -1,0 +1,106 @@
+---
+import "../styles/orbit.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#05070d" />
+    <title>In orbit — First Star</title>
+    <link rel="icon" href="/favicon.png" />
+  </head>
+  <body>
+    <div id="universe" aria-hidden="true">
+      <div class="fallback-star"></div>
+    </div>
+    <div class="helmet" aria-hidden="true">
+      <div class="visor-glass"></div>
+    </div>
+    <div class="hud-scale hud-scale-left" aria-hidden="true">
+      <span>ORBIT</span>
+      <i></i>
+      <span>01</span>
+    </div>
+    <div class="hud-scale hud-scale-right" aria-hidden="true">
+      <span>FIRST</span>
+      <i></i>
+      <span>STAR</span>
+    </div>
+    <div class="reticle" aria-hidden="true">
+      +
+    </div>
+    <header class="orbit-header">
+      <a class="identity" href="/">
+        <span class="identity-symbol">✳</span> FIRST STAR
+      </a>
+      <span class="location">
+        <i></i> ORBIT ESTABLISHED
+      </span>
+      <span class="prototype">VISOR / CONNECTED</span>
+    </header>
+    <main>
+      <section class="arrival" aria-labelledby="arrival-title">
+        <p class="eyebrow">
+          <span class="hud-dot"></span> LOCAL SYSTEM / 01
+        </p>
+        <h1 id="arrival-title">First Star</h1>
+        <p class="intro">A star in formation.</p>
+      </section>
+      <nav class="menu-dock" aria-label="Visor controls">
+        <span class="dock-label">VISOR INTERFACE</span>
+        <button
+          id="open-menu"
+          class="explore-button"
+          aria-haspopup="dialog"
+          aria-controls="explore-menu"
+        >
+          Explore <span aria-hidden="true">⌘</span>
+        </button>
+        <span class="invitation">Music · Writing · Work in progress</span>
+      </nav>
+      <dialog id="explore-menu" aria-labelledby="menu-title">
+        <div class="visor-top">
+          <div>
+            <span class="visor-icon" aria-hidden="true">
+              ⌘
+            </span>
+            <h2 id="menu-title">Explore</h2>
+            <span class="visor-context">FIRST STAR / OPEN STUDIO</span>
+          </div>
+          <button id="close-menu" aria-label="Dismiss menu">
+            Dismiss <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <iframe
+          id="catalog-frame"
+          title="Explore the First Star catalog"
+          data-src="/explore/"
+        ></iframe>
+        <div class="visor-bottom">
+          <span>
+            <i></i> IN ORBIT · FIRST STAR
+          </span>
+          <span>ESC / DISMISS MENU</span>
+        </div>
+      </dialog>
+      <noscript>
+        <a class="no-script" href="/explore/">
+          Explore the First Star catalog →
+        </a>
+      </noscript>
+    </main>
+    <footer class="orbit-footer">
+      <span>
+        FORMED THROUGH <a href="https://astrogenesis.co/">ASTROGENESIS</a>
+      </span>
+      <button id="motion" aria-pressed="false">
+        <span aria-hidden="true">Ⅱ</span> Pause orbit
+      </button>
+      <span class="coordinates">AUTO ORBIT / FIRST STAR</span>
+    </footer>
+    <script src="../lib/orbit.ts"></script>
+  </body>
+</html>
