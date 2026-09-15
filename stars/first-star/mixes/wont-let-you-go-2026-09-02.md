@@ -3,7 +3,7 @@ id: "wont-let-you-go-2026-09-02"
 type: "Mix"
 title: "Won't Let You Go — 2026-09-02"
 status: "notes"
-visibility: "private"
+visibility: public
 song: "songs/wont-let-you-go"
 file: "wont-let-you-go-2026-09-02-b9eee0e8416298e4.mp3"
 mix_date: "2026-09-02"
