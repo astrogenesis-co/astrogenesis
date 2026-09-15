@@ -4,6 +4,7 @@ type: Song
 title: Higher
 named:
 created: 2026-09-05
+song_created: 2019-11-03
 status: notes
 stage: demo
 ---

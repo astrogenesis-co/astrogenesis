@@ -106,6 +106,10 @@ export function parseEntity(source, group, filename) {
     status: placeholder ? "unwritten" : data.status || "draft",
     progress: group === "songs" ? data.stage || "not recorded" : "",
     created: data.created ? new Date(data.created).toISOString() : null,
+    songCreated:
+      group === "songs" && data.song_created
+        ? new Date(data.song_created).toISOString()
+        : null,
     visibility: data.visibility || "private",
     album: group === "tracks" ? data.album : null,
     narrativeStage: group === "tracks" ? data.narrative_stage : null,

@@ -11,7 +11,9 @@
     "test": "node --test tests/*.test.mjs",
     "audio:upload": "node scripts/upload-audio.mjs",
     "format": "prettier --write src tests astro.config.mjs",
-    "deploy": "npm run build && wrangler deploy --config wrangler.jsonc"
+    "deploy": "npm run build && wrangler deploy --config wrangler.jsonc",
+    "audio:verify": "node scripts/verify-audio.mjs",
+    "audio:publish": "npm run audio:upload && npm run audio:verify"
   },
   "dependencies": {
     "astro": "^7.3.2",

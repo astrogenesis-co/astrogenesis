@@ -3,6 +3,7 @@ id: all-the-things-you-love
 type: Song
 title: All the Things You Love
 created: 2026-09-06
+song_created: 2024-06-11
 status: notes
 stage: idea
 ---

@@ -196,7 +196,7 @@ npm --prefix stars/first-star run dev
 
 # After reviewing, set the mix record's visibility to public, then upload
 # before pushing/deploying the catalog change.
-npm --prefix stars/first-star run audio:upload
+npm --prefix stars/first-star run audio:publish
 ```
 
 The historical `prepare-listening-audio.py` imported already-normalized WAVs;
@@ -205,6 +205,12 @@ import command for routine additions. Existing normalized versions are preserved
 Mix audio remains outside Git. Removed audio is archived under
 `private/removed-mixes/`, outside the import folders. Curated stems follow the
 separate workflow below.
+
+`audio:publish` uploads public mixes and then verifies hosted file sizes, MIME
+types, and a byte-range request for seeking. It requires local Cloudflare
+authentication. Run it locally before pushing public mix records: GitHub Actions
+cannot upload the ignored audio files from your computer. Import does not upload
+automatically. `audio:upload` and `audio:verify` can also be run separately.
 
 The R2 bucket `astrogenesis-audio` hosts the normalized MP3 listening copies
 through `media.astrogenesis.co`. R2 is enabled in

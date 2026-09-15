@@ -148,7 +148,13 @@ const { entity: e, mixes, stems } = Astro.props;
                 <dd>{e.progress}</dd>
               </>
             )}
-            <dt>Created</dt>
+            {e.songCreated && (
+              <>
+                <dt>Song created (estimated)</dt>
+                <dd>{dateLabel(e.songCreated)}</dd>
+              </>
+            )}
+            <dt>Record created</dt>
             <dd>{dateLabel(e.created)}</dd>
             <dt>Last committed</dt>
             <dd>{dateLabel(e.updated)}</dd>

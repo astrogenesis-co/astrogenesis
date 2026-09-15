@@ -3,6 +3,7 @@ id: mania
 type: Song
 title: Mania
 created: 2026-09-06
+song_created: 2018-12-30
 status: notes
 stage: demo
 ---

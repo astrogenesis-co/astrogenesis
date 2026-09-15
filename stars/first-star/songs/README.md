@@ -14,6 +14,7 @@ id: coldness
 type: Song
 title: Coldness
 created: 2026-09-06
+song_created: 2019-03-28
 status: notes
 ---
 
@@ -21,5 +22,7 @@ status: notes
 ```
 
 The body holds notes, history, and fragments as a bulleted list — raw material, written as it comes. Use `-` bullets, group related thoughts together, and use consistent punctuation. Short fragments are welcome; unfinished thoughts can end with an ellipsis. `status` tracks the state of that writing: `notes` means raw history in progress; a later state (e.g. `distilled`) will mark a body that has been rewritten into its finished public form. For songs without notes, use `_The idea is not yet written._` as the body. This placeholder appears only while the body is otherwise empty; once notes exist, it comes out.
+
+`created` is the date this catalog record was created. `song_created` is the estimated date the song itself began, in `YYYY-MM-DD` format. For now, it uses the earliest `mix_date` among the song's Mix records. Omit it when no dated mix is available. Revise it if an earlier mix or better evidence of the song's origin becomes available; it is not an exact composition date.
 
 Audio for a song — DAW projects, dated mixes, and stems — lives under `media/` at the repo root (untracked), keyed by the same song id.

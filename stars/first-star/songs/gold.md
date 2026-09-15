@@ -3,6 +3,7 @@ id: gold
 type: Song
 title: Gold
 created: 2026-09-06
+song_created: 2021-02-10
 status: notes
 stage: demo
 ---

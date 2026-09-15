@@ -3,6 +3,7 @@ id: wont-let-you-go
 type: Song
 title: Won't Let You Go
 created: 2026-09-06
+song_created: 2026-09-02
 status: notes
 stage: idea
 ---

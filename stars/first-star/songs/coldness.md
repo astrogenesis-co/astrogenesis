@@ -3,6 +3,7 @@ id: coldness
 type: Song
 title: Coldness
 created: 2026-09-06
+song_created: 2019-03-28
 status: notes
 stage: demo
 ---
