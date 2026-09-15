@@ -7,4 +7,4 @@ status: notes
 stage: idea
 ---
 
-_The idea is not yet written._
+- Souls observing the cosmos, space, and time from outside of it

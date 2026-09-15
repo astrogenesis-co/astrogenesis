@@ -160,30 +160,51 @@ Work is tracked in [GitHub issues](https://github.com/tbutler1132/astrogenesis/i
 Mix records live in `stars/first-star/mixes/`. `song` links each version to a
 song; `mix_date` is derived from the filename, not filesystem timestamps.
 `normalized`, `duration_seconds`, `source_file`, and `source_sha256` preserve the
-listening version's provenance. The catalog contains 65 normalized versions across 22 songs.
+listening version's provenance. Newly imported mixes remain private until reviewed.
 The two undated Higher versions and nine redundant dated versions were removed
 at the owner’s request. Their source audio remains archived locally.
 
-The supplied normalized WAVs are copied to `media/mixes-normalized/` without
-changing them. MP3 listening copies are encoded with LAME quality 2 at 48 kHz,
-without further gain or loudness processing, into `media/listening/`. Mix audio
-remains outside Git. Curated stem listening copies are versioned separately (see below). The original files in `media/mixes/` are unchanged.
+For new mixes, use `scripts/import-mixes.py`. It scans `media/mixes/` for WAV,
+MP3, M4A, AIFF, and FLAC files named `song-slug-YYYY-MM-DD[-version]`, validates
+the song and date, and skips existing records without rewriting notes or visibility.
+Changed originals imported by this command require a new version filename. Historical
+records have no original hash, so their raw files cannot be checked for changes.
+`scripts/excluded-mixes.json` blocks the nine deliberately removed versions even
+if their audio is copied back into the import folder.
 
-From the repository root:
+Originals stay unchanged. The importer measures loudness and applies a fixed gain
+adjustment toward -16 LUFS, limited by a -1 dBTP ceiling; peak-limited mixes remain
+quieter to preserve dynamics. It creates 24-bit / 48 kHz WAVs in
+`media/mixes-normalized/` and LAME quality 2 / 48 kHz MP3s in `media/listening/`.
+The true-peak ceiling is checked on the normalized WAV; lossy MP3 encoding can
+change peaks. Records retain original and normalized hashes, gain, measured output
+loudness, and the normalization policy. MP3 filenames include a content/settings
+hash. New records start with `visibility: private` for local review.
+
+From the repository root, after the export or file copy finishes:
 
 ```sh
-# Initial import (or supply another normalized source directory)
-python3 scripts/prepare-listening-audio.py /path/to/mix_downs_normalized
+# Inspect new mixes without changing files
+python3 scripts/import-mixes.py --dry-run
 
-# Reuse the imported normalized WAVs
-python3 scripts/prepare-listening-audio.py
+# Import all new mixes, or select a single filename stem
+python3 scripts/import-mixes.py
+python3 scripts/import-mixes.py --mix wont-let-you-go-2026-09-02
 
-# Preview the full local catalog and its listening copies
+# Preview private records and local listening copies
 npm --prefix stars/first-star run dev
 
-# Upload public listening copies to R2, after approving publication
+# After reviewing, set the mix record's visibility to public, then upload
+# before pushing/deploying the catalog change.
 npm --prefix stars/first-star run audio:upload
 ```
+
+The historical `prepare-listening-audio.py` imported already-normalized WAVs;
+it does not normalize raw audio and can overwrite record metadata. Use the new
+import command for routine additions. Existing normalized versions are preserved.
+Mix audio remains outside Git. Removed audio is archived under
+`private/removed-mixes/`, outside the import folders. Curated stems follow the
+separate workflow below.
 
 The R2 bucket `astrogenesis-audio` hosts the normalized MP3 listening copies
 through `media.astrogenesis.co`. R2 is enabled in
