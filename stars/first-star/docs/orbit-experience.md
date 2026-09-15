@@ -125,15 +125,43 @@ Keep each pass focused and review the experience in the browser. Record new
 accepted decisions here; use GitHub issues for individual implementation tasks.
 Persistent audio across record navigation is a follow-up architecture decision.
 
-## Later: the Astrogenesis entrance
+## Astrogenesis entrance — prototype ready for review
 
-The Astrogenesis site may initially appear as an interface with an **Enter**
-button. Entering causes that interface to dissolve, revealing that the visitor
-was already floating in space behind it—a reveal inspired by *The Matrix*.
-This should eventually connect to the same spatial experience as First Star.
+Implemented September 15, 2026 following the user's request to try the entrance.
+The clean, luxurious Astrogenesis surface is an illusion. Scrolling toward First
+Star exposes a colder, more industrial atmosphere, with amber haze and visible
+structural lines. The visitor is already in space; the surface falls away.
 
-The user explicitly deferred this entrance until the orbit prototype's feel is
-established. Do not include it in the next pass unless requested.
+- Preserve the existing opening composition and editorial copy, adding soft
+  atmospheric light above and a gridded, weathered-feeling threshold below.
+- Proposed threshold copy: **“There is more here than the surface.”**
+- Proposed action: **“Let the facade fall.”** Both lines await user review.
+- Preload the actual `/orbit/` experience as the threshold approaches. Wait for
+  its readiness signal before dissolving the facade in place over 2.4 seconds.
+  There is no camera flight, zoom, or route change to another website.
+- Hold orbital movement while concealed, then resume it after the reveal.
+  Reduced-motion visitors receive an immediate reveal and a paused orbit.
+- Keep the permanent visor and existing Explore catalog. Return to the surface
+  through the small top control or browser Back; retain the mounted orbit.
+- Keep a normal orbit link for JavaScript-free visits, plus a direct-link recovery
+  when loading times out. Validate message origin and source between the sites.
+
+### Local preview
+
+Run `npm --prefix stars/first-star run dev` and, in another terminal,
+`python3 -m http.server 8080 --directory site --bind 127.0.0.1`.
+Open `http://127.0.0.1:8080/` and scroll down. Localhost connects to First Star on
+port 4321; the production entrance connects to `https://first.astrogenesis.co/orbit/`.
+Release the First Star readiness support before the Astrogenesis entrance, since
+the two sites deploy independently.
+
+Validation: production build and all eight existing tests passed. Browser review
+covered the opening, threshold at 390px wide, rendered reveal, and browser Back
+with focus restored to the entrance link. The in-app browser automation could not
+target controls within the nested orbit frame, so Explore interactions through
+this entrance remain to be checked manually. Reduced-motion and load-failure
+branches were reviewed in code but not browser-simulated. The visual direction
+and wording await user acceptance. Nothing has been published.
 
 ## Starting a new task
 

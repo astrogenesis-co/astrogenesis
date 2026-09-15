@@ -6,6 +6,44 @@ const frame = document.querySelector<HTMLIFrameElement>("#catalog-frame")!;
 const motionButton = document.querySelector<HTMLButtonElement>("#motion")!;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 let paused = reducedMotion.matches;
+let concealed =
+  window.parent !== window &&
+  new URLSearchParams(location.search).has("entrance");
+const entranceOrigin = (() => {
+  try {
+    const referrer = new URL(document.referrer);
+    if (
+      referrer.origin === "https://astrogenesis.co" ||
+      (["localhost", "127.0.0.1"].includes(location.hostname) &&
+        referrer.hostname === location.hostname)
+    ) {
+      return referrer.origin;
+    }
+  } catch {
+    /* Direct visits have no parent. */
+  }
+  return null;
+})();
+if (concealed && entranceOrigin) {
+  document
+    .querySelectorAll<HTMLAnchorElement>(".identity, .orbit-footer a")
+    .forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        parent.postMessage({ type: "astrogenesis:surface" }, entranceOrigin);
+      });
+    });
+}
+window.addEventListener("message", (event) => {
+  if (
+    !entranceOrigin ||
+    event.origin !== entranceOrigin ||
+    event.source !== parent
+  )
+    return;
+  if (event.data?.type === "astrogenesis:reveal") concealed = false;
+  if (event.data?.type === "astrogenesis:conceal") concealed = true;
+});
 
 function updateMotion() {
   motionButton.setAttribute("aria-pressed", String(paused));
@@ -230,10 +268,11 @@ try {
     const delta = Math.min((now - last) / 1000, 0.05);
     last = now;
     if (document.hidden) return;
-    if (paused && !needsRender) return;
+    if ((paused || concealed) && !needsRender) return;
     // Integrate angle so changing viewport never jumps to a different phase.
     // One revolution takes about 12 minutes (15 on phones), with no bob or roll.
-    if (!paused) elapsed = (elapsed + delta * orbitSpeed) % (Math.PI * 2);
+    if (!paused && !concealed)
+      elapsed = (elapsed + delta * orbitSpeed) % (Math.PI * 2);
     const orbit = elapsed;
     const distance = orbitDistance;
     camera.position.set(
@@ -256,4 +295,13 @@ try {
   console.warn("Orbit scene unavailable; using the still scene.", error);
   host.innerHTML = '<div class="fallback-star"></div>';
   motionButton.hidden = true;
+}
+
+// Signal only after the scene (or its still fallback) has had a chance to paint.
+if (entranceOrigin) {
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      parent.postMessage({ type: "astrogenesis:ready" }, entranceOrigin);
+    }),
+  );
 }

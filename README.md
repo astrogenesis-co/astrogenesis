@@ -120,8 +120,9 @@ page still uses the existing page navigation and can interrupt playback.
 
 The prototype includes a pause control, respects reduced-motion preferences,
 and falls back to a still star if WebGL is unavailable. It uses the same catalog
-publication rules as Explore. The Astrogenesis entrance/dissolve transition is
-reserved for a later experiment.
+publication rules as Explore. The Astrogenesis homepage now includes an entrance experiment that dissolves
+its surface over the orbit scene. See the design brief for the two-server preview
+instructions and validation limits.
 
 ### Explore catalog
 
