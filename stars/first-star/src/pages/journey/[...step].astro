@@ -3,18 +3,18 @@ import { chapters } from "../../lib/journey.mjs";
 import { getCatalog, preview, dateLabel } from "../../lib/catalog.mjs";
 import "../../styles/journey.css";
 export function getStaticPaths() {
-  return preview
-    ? [
-        { params: { step: undefined } },
-        ...chapters.map((chapter, index) => ({
-          params: { step: chapter.id },
-          props: { chapter, index },
-        })),
-      ]
-    : [];
+  return [
+    { params: { step: undefined } },
+    ...chapters.map((chapter, index) => ({
+      params: { step: chapter.id },
+      props: { chapter, index },
+    })),
+  ];
 }
 const { chapter: c, index = -1 } = Astro.props;
-const catalog = c?.listen ? getCatalog() : [];
+const catalog = getCatalog();
+const songAvailable =
+  c?.song && catalog.some((e) => e.key === `songs/${c.song}`);
 const versions = catalog
   .filter(
     (e) => e.group === "mixes" && e.song === `songs/${c?.song}` && e.audio,
@@ -30,7 +30,7 @@ const next = chapters[index + 1];
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow" />
+    {preview && <meta name="robots" content="noindex,nofollow" />}
     <title>{c ? c.displayTitle : 'The journey'} — First Star</title>
     <link rel="icon" href="/favicon.png" />
   </head>
@@ -55,7 +55,10 @@ const next = chapters[index + 1];
     </header>
     <aside class="work-in-progress" aria-label="Work in progress">
       <strong>A work in progress.</strong>
-      <span>This is an early sketch of the journey. Some words, memories, and music are placeholders; the experience will change as it grows.</span>
+      <span>
+        This is an early sketch of the journey. Some words, memories, and music
+        are placeholders; the experience will change as it grows.
+      </span>
     </aside>
     <main id="main">
       {!c ? (
@@ -195,7 +198,7 @@ const next = chapters[index + 1];
                     Listening copies are not available in this preview.
                   </p>
                 )}
-                {c.song && (
+                {songAvailable && (
                   <a
                     class="text-link"
                     href={`/explore/songs/${c.song}/?journey=${c.id}`}
